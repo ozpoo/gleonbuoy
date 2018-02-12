@@ -1,0 +1,1 @@
+!function(n,o,t){n(function(){"use strict";n(window).load(function(){n("body").addClass("show"),n(document).on("click",".menu button",function(){n(this).closest(".menu").find(".list").toggleClass("show")})})})}(jQuery);
