@@ -15,17 +15,32 @@
 	</main>
 
 	<script>
-		let NB_FRAMES = 200;
-    let NB = 10;
-    let frame_count = 0;
-    let Objects = [];
-    let curSeed = 11;
-    let body = document.getElementsByTagName('body')[0];
-    let loop = true;
+
+		let NB_FRAMES, NB, frame_count;
+    let Objects, curSeed, dom, loop;
 
 		function setup() {
       init();
 		}
+
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
+      canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
+			noiseSeed(curSeed);
+			randomSeed(1);
+      smooth();
+      NB_FRAMES = 200;
+      NB = 10;
+      frame_count = 0;
+      Objects = [];
+      curSeed = 11;
+      loop = true;
+			for(let i = 0; i < NB; i++) {
+				Objects[i] = new object(i);
+			}
+    }
 
 		function draw() {
       if(loop) {
@@ -41,32 +56,12 @@
 		}
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
     }
 
     function mousePressed() {
-      loop = !loop;
-    }
-
-    function init() {
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
-      canvas.parent("canvas");
-      body.classList.add("dark");
-      colorMode(RGB, 255, 255, 255, 1);
-			noiseSeed(curSeed);
-			randomSeed(1);
-      smooth();
-      NB_FRAMES = 200;
-      NB = 10;
-      frame_count = 0;
-      Objects = [];
-      curSeed = 11;
-      body = document.getElementsByTagName('body')[0];
-      loop = true;
-			for(let i = 0; i < NB; i++) {
-				Objects[i] = new object(i);
-			}
+      // loop = !loop;
     }
 
     function activation(t) {

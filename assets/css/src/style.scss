@@ -119,19 +119,11 @@ body {
   letter-spacing: .06em;
   line-height: 1.4;
   opacity: 0;
-  transition: background 1220ms cubic-bezier(.165, .84, .44, 1), opacity 1220ms cubic-bezier(.165, .84, .44, 1);
-  will-change: opacity, background;
+  transition: opacity 1220ms cubic-bezier(.165, .84, .44, 1);
+  will-change: opacity;
 
   &.show {
     opacity: 1;
-  }
-
-  &.dark {
-    color: $white;
-    
-    a, button {
-      color: $white;
-    }
   }
 }
 
@@ -141,7 +133,7 @@ img {
 }
 
 p, ul, ol, h1, h2, h3, h4 {
-	margin: $unit-2;
+	margin: 3vh 3vw;
 }
 
 h1, h2, h3, h4 {
@@ -256,6 +248,14 @@ strong {
     display: block;
     overflow: hidden;
   }
+}
+
+#canvas {
+  width: 94vh;
+  height: 94vh;
+  backface-visibility: hidden;
+  transition: background 1220ms cubic-bezier(.165, .84, .44, 1);
+  will-change: background;
 }
 
 @media only screen and (max-width: 680px) {

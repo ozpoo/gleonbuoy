@@ -16,10 +16,28 @@
 
 	<script>
     let xOffset, yOffset, offsetInc;
-    let inc, s, m, body, loop;
+    let inc, s, m, loop, dom;
 
     function setup() {
       init();
+    }
+
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
+      canvas.parent("canvas");
+      blendMode(ADD);
+      noFill();
+      stroke(255, 255, 255, 15);
+      smooth();
+      background(20);
+      xOffset = 0;
+      yOffset = 0;
+      offsetInc = 0.006;
+      inc = 1;
+      s = 1;
+      m = 1.005;
+      loop = true;
     }
 
     function draw() {
@@ -49,32 +67,12 @@
     }
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
     }
 
     function mousePressed() {
-      loop = !loop;
-    }
-
-    function init() {
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
-      canvas.parent("canvas");
-      body = document.getElementsByTagName('body')[0];
-      body.classList.add("dark");
-      blendMode(ADD);
-      noFill();
-      stroke(255, 255, 255, 15);
-      smooth();
-      background(20);
-      xOffset = 0;
-      yOffset = 0;
-      offsetInc = 0.006;
-      inc = 1;
-      s = 1;
-      m = 1.005;
-      body = document.getElementsByTagName('body')[0];
-      loop = true;
+      // loop = !loop;
     }
 	</script>
 

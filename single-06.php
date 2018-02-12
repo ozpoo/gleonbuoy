@@ -16,43 +16,43 @@
 
 	<script>
 
-    let xstep, ystep, y;
-
-    let nx, ny, nz;
+    var theta;
 
     function setup() {
+      init();
+    }
 
-      canvas = createCanvas(canvasWidth, canvasHeight);
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
-      background(10);
-      stroke(255);
-      noFill();
-
-      xstep = 5;
-      ystep = 10;
-      y = 0;
-
-      nx = random(100);
-      ny = random(100);
-      nz = random(1000);
-
+      smooth();
+      theta = 0;
     }
 
     function draw() {
-      background(0);
-      for (let j = 0; height+ystep > j; j+=ystep) {
+      theta+=.20;
+      background(230);
+      stroke("#2234C9");
+      translate(width/2, height/2);
+      noFill();
+      var r=250;
+      for (var i=-0.5*PI;i<PI+0.5*PI;i+=0.01*PI) {
         beginShape();
-        vertex(0, j);
-        for (let i = 0; i < width+xstep; i+=xstep) {
-          nx = i/234;
-          ny = j/165;
-          y = map(noise(nx, ny, nz), 0, 1, -100, 100)+j;
-          curveVertex(i, y);
+        for (var j=-sin(i)*r;j<sin(i)*r+sin(i);j+=sin(i)*20) {
+          curveVertex(j, cos(i)*r+sin(theta-(j/40))*abs(i*10));
         }
-        vertex(width, j);
         endShape();
       }
-      nz+=.01;
+    }
+
+    function windowResized() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
+    }
+
+    function mousePressed() {
+      // loop = !loop;
     }
 
 	</script>

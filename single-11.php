@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: 11
+ * Template Name: 18
  * Template Post Type: post
  */
 
@@ -16,91 +16,54 @@
 
 	<script>
 
-    var poop, palette, distance, flag;
+    var resolution, rad, x, y;
+    var t, tChange, nVal, nInt, nAmp, dom, loop;
 
     function setup() {
-      canvas = createCanvas(canvasWidth, canvasHeight);
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight, WEBGL);
       canvas.parent("canvas");
-      smooth();
-      palette = [color("#42d1f4"), color("#a142f4"), color("#50217a"), color("#213e7a"), color("#f74a33"), color("#f2eccd")];
-      distance = 10;
-      flag = true;
-      poop = new Array();
-      for(var i = 0; i < 30; i++) {
-        var D = new Dots(random(-150, 150), random(-150, 150));
-        poop.push(D);
-      }
+      noiseDetail(8);
+      resolution = 260; // how many points in the circle
+      rad = 150;
+      x = 1;
+      y = 1;
+      t = 0; // time passed
+      tChange = .02; // how quick time flies
+      nVal; // noise value
+      nInt = 1; // noise intensity
+      nAmp = 1; // noise amplitude
     }
 
     function draw() {
-      background(255);
-      translate(width/2, height/2);
-      for(var i  =0; i < poop.length; i++) {
-        var dots1 = poop[i];
-        dots1.display();
-        dots1.update();
-        for(var j = i+1; j < poop.length; j++) {
-          var dots2 = poop[i];
-          dots2.update();
-          if(dist(dots1.location.x, dots1.location.y, dots2.location.x, dots2.location.y) < distance) {
-            for(var k=j+1; k < poop.length; k++) {
-              var dots3 = poop[i];
-              dots3.update();
-              if(flag) {
-                fill(palette[dots3.c], 50);
-                noStroke();
-              } else {
-                noFill();
-                stroke(255,50);
-              }
-              if(dist(dots3.location.x, dots3.location.y, dots2.location.x, dots2.location.y) < distance) {
-                  beginShape();
-                    vertex(dots3.getX(), dots3.getY());
-                    vertex(dots2.getX(), dots2.getY());
-                    vertex(dots1.getX(), dots1.getY());
-                    noLoop();
-                  endShape(CLOSE);
-              }
-            }
+      if(loop) {
+        background(230);
+        noFill();
+        stroke("#2234C9");
+        strokeWeight(1);
+        nInt = map(mouseX, 0, width, 0.1, 30); // map mouseX to noise intensity
+        nAmp = map(mouseY, 0, height, 0.0, 1.0); // map mouseY to noise amplitude
+
+        beginShape();
+        for(var a = 0; a <= TWO_PI; a += TWO_PI / resolution) {
+          nVal = map(noise( cos(a)*nInt+1, sin(a)*nInt+1, t ), 0.0, 1.0, nAmp, 1.0); // map noise value to match the amplitude
+          x = cos(a)*rad *nVal;
+          y = sin(a)*rad *nVal;
+          vertex(x, y);
           }
-        }
+        endShape(CLOSE);
+
+        t += tChange;
       }
     }
 
-    function keyPressed() {
-      flag=!flag;
+    function windowResized() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
     }
 
-    function Dots(x, y) {
-      this.location = createVector(x, y);
-      this.c = parseInt(random(palette.length));
-      this.xt = random(-0.01, 0.01);
-      this.yt = random(-0.01, 0.01);
-      this.velocity = createVector(this.xt, this.yt);
-      this.radius = 200;
-
-      this.display = function() {
-        fill(palette[this.c]);
-        noStroke();
-        ellipse(this.location.x, this.location.y, 2, 2);
-      }
-
-      this.update = function() {
-        if(dist(this.location.x, this.location.y, 0, 0) > this.radius) {
-          this.velocity.mult(-1);
-          this.location.add(this.velocity);
-        } else {
-          this.location.add(this.velocity);
-        }
-      }
-
-      this.getX = function() {
-        return this.location.x
-      }
-
-      this.getY = function() {
-        return this.location.y
-      }
+    function mousePressed() {
+      // loop = !loop;
     }
 
 	</script>

@@ -16,41 +16,17 @@
 
 	<script>
     let background, v, w, position, loop;
-    let sx, sy, sz, nx, ny, nz, time, dt, ct;
+    let sx, sy, sz, nx, ny, nz, time, dt, ct, dom;
 
     function setup() {
       init();
     }
 
-    function draw() {
-      if(loop) {
-        clear();
-        if(sx == nx && sy == ny && sz == nz) {
-          incrementData();
-          incrementCoordinates();
-        } else {
-          incrementCoordinates();
-        }
-        drawWave();
-        v -= 0.02;
-        w += 0.04;
-        time += dt;
-      }
-    }
-
-    function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
-      init();
-    }
-
-    function mousePressed() {
-      loop = !loop;
-    }
-
     function init() {
+      dom = document.getElementById("canvas");
       background = tinycolor("rgba (255, 0, 0, .2)").desaturate(50);
-      document.body.style.backgroundColor = background.toString();
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
+      dom.style.backgroundColor = background.toString();
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
       colorMode(RGB, 255, 255, 255, 1);
       stroke(20, 20, 20, 1);
@@ -83,6 +59,31 @@
       data.push([55.85, 8.73, 86.5]); //82
     }
 
+    function draw() {
+      if(loop) {
+        clear();
+        if(sx == nx && sy == ny && sz == nz) {
+          incrementData();
+          incrementCoordinates();
+        } else {
+          incrementCoordinates();
+        }
+        drawWave();
+        v -= 0.02;
+        w += 0.04;
+        time += dt;
+      }
+    }
+
+    function windowResized() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
+    }
+
+    function mousePressed() {
+      // loop = !loop;
+    }
+
     function incrementData() {
       if(!data[position]) {
         position = 0;
@@ -91,9 +92,8 @@
       ny = Math.floor(map(data[position][1], 8.67, 9.28, 0, 200));
       nz = Math.floor(map(data[position][2], 83.1, 88.9, 0, 400));
       position++;
-      console.log(position);
       background.spin(Math.floor(Math.random() * 360) + 1);
-      document.body.style.backgroundColor = background.toString();
+      dom.style.backgroundColor = background.toString();
     }
 
     function incrementCoordinates() {
@@ -104,7 +104,6 @@
           sx -= ct;
         }
       }
-
       if(sy != ny) {
         if(sy < ny) {
           sy += ct;
@@ -112,7 +111,6 @@
           sy -= ct;
         }
       }
-
       if(sz != nz) {
         if(sz < nz) {
           sz += ct;
@@ -135,6 +133,7 @@
       endShape();
       pop();
     }
+
 	</script>
 
 <?php get_footer(); ?>

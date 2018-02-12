@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: 12
+ * Template Name: 21
  * Template Post Type: post
  */
 
@@ -16,45 +16,54 @@
 
 	<script>
 
-    var sX, sY, x, y;
+  let dom, loop;
 
     function setup() {
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
-      canvas.parent("canvas");
-      fill(255, 20);
-      stroke(0, 20);
+      init();
+    }
 
-      sX = 1;
-      sY = 1;
-      x = 250;
-      y = 250;
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
+      canvas.parent("canvas");
+      noStroke();
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      strokeWeight(2);
+      loop = true;
     }
 
     function draw() {
-      if(frameCount % 500 == 0) {
-        rect(-1, -1, width + 1, height + 1);
-      }
-      for(var a = 0; a < TWO_PI; a += 0.02) {
-        push();
-        translate(x, y);
-        rotate(a);
-        var r = 500 * pow(noise(cos(a), sin(a), frameCount * 0.01), 4);
-        translate(r, r);
-        line(0, 0, 0, 0);
-        pop();
-      }
-      x += sX;
-      y += sY;
-      if(x < 0 || x > width || random(1) < 0.003) {
-        sX = -sX;
-      }
-      if(y < 0 || y > height || random(1) < 0.003) {
-        sY = -sY;
+      if(loop) {
+        clear();
+        var radius = 200;
+        var step = 10;
+        for(var y = -radius + step / 2; y <= radius - step / 2; y += step){
+          var wave = abs(pow(sin(y * 0.003 + frameCount * 0.1), 10));
+          var wy = y - map(wave, 0, 1, -step, step);
+          var X = sqrt(sq(radius) - sq(y)) * map(wave, 0, 1, 1, 1.1);
+          var cRate = map(y, -radius + step / 2, radius + step / 2, 0, 1);
+          // stroke(lerpColor(color(69, 189, 207), color(234, 84, 93), cRate));
+          stroke(20, 20, 20, 1);
+          push();
+          translate(width / 2, height / 2);
+          beginShape();
+          for(var x = -X; x <= X; x += 1){
+            vertex(x, wy);
+          }
+          endShape();
+          pop();
+        }
       }
     }
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
+    }
+
+    function mousePressed() {
+      // loop = !loop;
     }
 
 	</script>

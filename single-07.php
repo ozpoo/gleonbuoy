@@ -16,58 +16,51 @@
 
 	<script>
 
-    var w1;
+    var sX, sY, x, y;
 
     function setup() {
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
+      init();
+    }
+
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
-      background(0);
-      noStroke();
       noFill();
-      w1 = new Wave(width/2, height/2, 1, 200, width);
+      background(230);
+      stroke("#2234C9");
+      sX = 1;
+      sY = 1;
+      x = 250;
+      y = 250;
     }
 
     function draw() {
-      clear();
-      background("rgba(255, 255, 255, 0)");
-      w1.barwid = map(mouseX, 0, width, 5, 1);
-      w1.maxhei = map(mouseY, 0, height, height, 1);
-      w1.display();
+      if(frameCount % 500 == 0) {
+        rect(-1, -1, width + 1, height + 1);
       }
-      //Wave Object
-    function Wave(x, y, barwid, maxhei, amount) {
-      //Initial Variables
-      //Coords
-      this.x = x;
-      this.y = y;
-      //Bar Properties
-      this.maxhei = maxhei;
-      this.amount = amount;
-      this.barwid = barwid;
-      //noStroke();
-      rectMode(CENTER);
-      //Display
-      this.display = function() {
-      for(this.i=0; this.i<this.amount; this.i++) {
-          //Time in milliseconds/600 for smoothe transitions
-          this.time = millis()/600;
-          //Cycling colors depending on time
-          this.r = map(sin(this.time+this.i/90), -1, 1, 0, 255);
-          this.g = map(sin(this.time+22.5+this.i/90), -1, 1, 0, 255);
-          this.b = map(sin(this.time+45+this.i/90), -1, 1, 0, 255);
-          fill(this.r, this.g, this.b);
-          //Hight depending on time and i
-          this.hei = map(sin(this.i/90 + this.time), -1, 1, 0, this.maxhei);
-          //Actual Draw
-          strokeWeight(1);
-          stroke(this.g, this.b, this.r);
-          rect(this.x + this.i*this.barwid-this.amount*this.barwid/2, this.y, this.barwid+2, this.hei);
-        }
+      for(var a = 0; a < TWO_PI; a += 0.02) {
+        push();
+        translate(x, y);
+        rotate(a);
+        var r = 500 * pow(noise(cos(a), sin(a), frameCount * 0.01), 4);
+        translate(r, r);
+        line(0, 0, 0, 0);
+        pop();
+      }
+      x += sX;
+      y += sY;
+      if(x < 0 || x > width || random(1) < 0.003) {
+        sX = -sX;
+      }
+      if(y < 0 || y > height || random(1) < 0.003) {
+        sY = -sY;
       }
     }
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
     }
 
 	</script>

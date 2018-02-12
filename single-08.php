@@ -16,17 +16,21 @@
 
 	<script>
 
-    var city, num;
+    var city, num, dom, loop;
 
     function setup() {
+      init();
+    }
 
-      canvas = createCanvas(canvasWidth, canvasHeight, WEBGL);
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight, WEBGL);
       canvas.parent("canvas");
       noStroke();
-      fill(250);
-
+      fill("#2234C9");
       city = new Array();
       num = 0;
+      loop = true;
       for (var x = -5; x <= 5; x++) {
         for (var z = -5; z <= 5; z++) {
           var r = random(0, 1);
@@ -36,20 +40,20 @@
           }
         }
       }
-
     }
 
     function draw() {
-      clear();
-      background("rgba(255, 255, 255, 0)");
-      rotateX(-radians(20));
-      rotateY(radians(45+num));
-      pointLight(255, 255, 255, -width, -height, -width);
-      for (var i = 0; i < city.length; i++) {
-        var b = city[i];
-        b.draw();
+      if(loop) {
+        background(230);
+        rotateX(-radians(20));
+        rotateY(radians(45+num));
+        pointLight(255, 255, 255, -width, -height, -width);
+        for (var i = 0; i < city.length; i++) {
+          var b = city[i];
+          b.draw();
+        }
+        num+=0.3;
       }
-      num+=0.3;
     }
 
     function Building(loc, size) {
@@ -59,14 +63,21 @@
       this.draw = function() {
         push();
         translate(loc.x, loc.y-num/2, loc.z);
-        fill(constrain(size, 0, 255));
         box(20, num, 20);
         pop();
-        // Animate growth
         if (num < size) {
           num+=map(size, 0, 200, 0.3, 4);
         }
       }
+    }
+
+    function windowResized() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
+    }
+
+    function mousePressed() {
+      // loop = !loop;
     }
 
 	</script>

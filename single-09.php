@@ -16,32 +16,61 @@
 
 	<script>
 
-    var theta;
+    let dom;
 
     function setup() {
+      init();
+    }
 
-      canvas = createCanvas(canvasWidth, canvasHeight);
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
-      smooth();
-      theta = 0;
-
+      noStroke();
+      frameRate(10);
     }
 
     function draw() {
-      clear();
-      theta+=.20;
       background(230);
-      stroke("#2234C9");
+      fill("#2234C9");
       translate(width/2, height/2);
-      noFill();
-      var r=250;
-      for (var i=-0.5*PI;i<PI+0.5*PI;i+=0.01*PI) {
-        beginShape();
-        for (var j=-sin(i)*r;j<sin(i)*r+sin(i);j+=sin(i)*20) {
-          curveVertex(j, cos(i)*r+sin(theta-(j/40))*abs(i*10));
+      drawRectWheel(80, 650, 1, 80, 55, 55);
+    }
+
+    function drawRectWheel(inDiam, outDiam, rectWidth, countOfRect, inDiamRndmz, outDiamRndmz) {
+      inDiam /= 2;
+      outDiam /= 2;
+      var angle = 0;
+      var xx, yy;
+      var wdthBuf = outDiam - inDiam;
+      var step = radians(360/countOfRect);
+
+      while(angle < TWO_PI) {
+        xx = cos(angle) * inDiam;
+        yy = sin(angle) * inDiam;
+        push();
+        translate(xx, yy);
+        rotate(angle);
+        angle += step;
+        var inDiamRndm  = random(0, inDiamRndmz);
+        var outDiamRndm = random(-outDiamRndmz, 0);
+
+        if(outDiamRndmz == 0) {
+          rect(inDiamRndm, -rectWidth/2, wdthBuf - inDiamRndm, rectWidth);
+        } else {
+          rect(inDiamRndm, -rectWidth/2, wdthBuf + outDiamRndm - inDiamRndm, rectWidth);
         }
-        endShape();
+        pop();
       }
+    }
+
+    function windowResized() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
+    }
+
+    function mousePressed() {
+      // loop = !loop;
     }
 
 	</script>

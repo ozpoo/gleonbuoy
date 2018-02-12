@@ -17,15 +17,29 @@
 	<script>
 
     let xstep, ystep, y;
-    let nx, ny, nz, body;
+    let nx, ny, nz, body, dom;
 
     function setup() {
       init();
     }
 
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
+      canvas.parent("canvas");
+      stroke(255);
+      noFill();
+      xstep = 5;
+      ystep = 20;
+      y = 0;
+      nx = random(100);
+      ny = random(100);
+      nz = random(1000);
+    }
+
     function draw() {
       if(loop) {
-        background(0);
+        background(25);
         for (let j = 0; height+ystep > j; j+=ystep) {
           beginShape();
           vertex(0, j);
@@ -43,30 +57,12 @@
     }
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.innerWidth, dom.innerHeight);
       init();
     }
 
     function mousePressed() {
-      loop = !loop;
-    }
-
-    function init() {
-      body = document.getElementsByTagName('body')[0];
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
-      canvas.parent("canvas");
-      body.classList.add("dark");
-      background(10);
-      stroke(255);
-      noFill();
-
-      xstep = 5;
-      ystep = 20;
-      y = 0;
-
-      nx = random(100);
-      ny = random(100);
-      nz = random(1000);
+      // loop = !loop;
     }
 	</script>
 

@@ -16,10 +16,24 @@
 
 	<script>
 
-    let n, minRad, maxRad, nfAng, nfTime, body;
+    let n, minRad, maxRad, nfAng, nfTime, dom;
 
     function setup() {
       init();
+    }
+
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
+      canvas.parent("canvas");
+      background(25);
+      noFill();
+      stroke(255, 15);
+      n = 256;
+      minRad = 50;
+      maxRad = 600;
+      nfAng = 0.01;
+      nfTime = 0.005;
     }
 
     function draw() {
@@ -38,27 +52,12 @@
     }
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
     }
 
     function mousePressed() {
-      loop = !loop;
-    }
-
-    function init() {
-      body = document.getElementsByTagName('body')[0];
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
-      canvas.parent("canvas");
-      body.classList.add("dark");
-      background(10);
-      noFill();
-      stroke(255, 15);
-      n = 256;
-      minRad = 50;
-      maxRad = 600;
-      nfAng = 0.01;
-      nfTime = 0.005;
+      // loop = !loop;
     }
 
 	</script>
