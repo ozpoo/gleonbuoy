@@ -48,11 +48,6 @@ function header_scripts() {
           array('jquery'), '1.0.0');
         wp_enqueue_script('fontawesome');
 
-        wp_register_script('p5',
-          get_template_directory_uri() . '/assets/js/_lib/p5/p5.min.js',
-          array('jquery'), '1.0.0');
-        wp_enqueue_script('p5');
-
         wp_register_script('script',
           get_template_directory_uri() . '/assets/js/build/build.js?v='.time(),
           array('jquery'), '1.0.0');
@@ -61,7 +56,39 @@ function header_scripts() {
 }
 
 function conditional_scripts() {
-  if ( is_page("gleon-buoy-switch") ) {
+  if ( is_single() ) {
+		$library = get_field("library")[0];
+		if($library == "p5.js") {
+			wp_register_script('p5',
+				get_template_directory_uri() . '/assets/js/_lib/p5/p5.min.js',
+				array('jquery'), '1.0.0');
+			wp_enqueue_script('p5');
+		} else if($library == "processing.js") {
+			wp_register_script('processing',
+				get_template_directory_uri() . '/assets/js/_lib/processing/processing.min.js',
+				array('jquery'), '1.0.0');
+			wp_enqueue_script('processing');
+		} else if($library == "three.js") {
+			wp_register_script('detector',
+				get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Detector.js',
+				array('jquery'), '1.0.0');
+			wp_enqueue_script('detector');
+
+			wp_register_script('three',
+				get_template_directory_uri() . '/assets/js/_lib/three/build/three.min.js',
+				array('jquery'), '1.0.0');
+			wp_enqueue_script('three');
+
+			wp_register_script('controls',
+	      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/controls/OrbitControls.js',
+	      array('jquery'), '1.0.0');
+	    wp_enqueue_script('controls');
+
+			wp_register_script('d3',
+				'https://d3js.org/d3.v4.min.js',
+				array('jquery'), '1.0.0');
+			wp_enqueue_script('d3');
+		}
   }
 }
 

@@ -272,3 +272,11 @@ strong {
 @media only screen and (max-width: 680px) {
 
 }
+
+@media screen and (orientation: portrait) {
+
+  #canvas {
+    width: 94vw;
+    height: 94vw;
+  }
+}
