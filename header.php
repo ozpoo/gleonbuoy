@@ -33,10 +33,22 @@
 			</section>
 
 			<section class="menu">
-				<p><button>Menu</button></p>
+				<p>
+					<button class="menu-button">
+						<svg version="1.1"
+							 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+							 x="0px" y="0px" width="30px" height="30px" viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
+						<style type="text/css">
+							.st0{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
+						</style>
+						<line class="st0" x1="0" y1="15" x2="30" y2="15"/>
+						<line class="st0" x1="15" y1="0" x2="15" y2="30"/>
+						</svg>
+					</button>
+				</p>
         <div class="list">
           <?php
-          $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1)); ?>
+          $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1, 'order'=>'DESC')); ?>
           <?php if ( $wpb_all_query->have_posts() ) : ?>
           <ul>
             <?php while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
