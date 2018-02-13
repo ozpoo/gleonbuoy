@@ -30,57 +30,40 @@
         renderer.setSize(width, height);
         $(".visualization").append(renderer.domElement);
 
-        const near_plane = 2;
-        const far_plane = 100;
-
         // Set up camera and scene
         let camera = new THREE.PerspectiveCamera(
-        20,
+        45,
         width / height,
-        near_plane,
-        far_plane
+        1,
+        10000
         );
-        camera.position.set(0, 0, far_plane);
+        camera.position.set(0, 0, 10000);
         camera.lookAt(new THREE.Vector3(0,0,0));
         const scene = new THREE.Scene();
-        // scene.background = new THREE.Color(0xffffff);
+        scene.background = new THREE.Color(0xffffff);
 
-        let pointsMaterial;
-
-        fetch('//fastforwardlabs.github.io/visualization_assets/word2vec_tsne_2d.json')
-        .then(response => response.json())
-        .then(raw_points => {
-          const pointsGeometry = new THREE.Geometry();
-          const colors = [];
-          for (const point of raw_points) {
-            const vertex = new THREE.Vector3(point.coords[0], point.coords[1], 0);
-            pointsGeometry.vertices.push(vertex);
-            const color = new THREE.Color();
-            color.setHSL(Math.random(), 1.0, 0.5);
-            colors.push(color);
-          }
-          pointsGeometry.colors = colors;
-          pointsMaterial = new THREE.PointsMaterial({
-            // map: spriteMap,
-            size: 6,
-            // transparent: true,
-            // blending: THREE.AdditiveBlending,
-            sizeAttenuation: false,
-            vertexColors: THREE.VertexColors,
-          });
-          const points = new THREE.Points(pointsGeometry, pointsMaterial);
-          const pointsContainer = new THREE.Object3D();
-          pointsContainer.add(points);
-          scene.add(pointsContainer);
-        });
+        // Generate points and add them to scene
+        const generated_points = d3.range(100000).map(phyllotaxis(10));
+        const pointsGeometry = new THREE.Geometry();
+        const colors = [];
+        for (const point of generated_points) {
+        const vertex = new THREE.Vector3(point[0], point[1], 0);
+        pointsGeometry.vertices.push(vertex);
+        const color = new THREE.Color();
+        color.setHSL(Math.random(), 1, 0.5);
+        colors.push(color);
+        }
+        pointsGeometry.colors = colors;
+        const pointsMaterial = new THREE.PointsMaterial({ vertexColors: THREE.VertexColors, size: 6,
+        sizeAttenuation: false  });
+        const points = new THREE.Points(pointsGeometry, pointsMaterial);
+        const pointsContainer = new THREE.Object3D();
+        pointsContainer.add(points);
+        scene.add(pointsContainer);
 
         // Set up zoom behavior
         const zoom = d3.zoom()
-        .scaleExtent([near_plane, far_plane])
-        .wheelDelta(function wheelDelta() {
-          // this inverts d3 zoom direction, which makes it the rith zoom direction for setting the camera
-          return d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500;
-        })
+        .scaleExtent([100, 10000])
         .on('zoom', () => {
           const event = d3.event;
           if (event.sourceEvent) {
@@ -107,14 +90,6 @@
               const distance = (new_z - camera.position.z)/dir.z;
               const pos = camera.position.clone().add(dir.multiplyScalar(distance));
 
-
-              if (camera.position.z < 20) {
-                scale = (20 -  camera.position.z)/camera.position.z;
-                pointsMaterial.setValues({size: 6 + 3 * scale});
-              } else if (camera.position.z >= 20 && pointsMaterial.size !== 6) {
-                pointsMaterial.setValues({size: 6});
-              }
-
               // Set the camera to new coordinates
               camera.position.set(pos.x, pos.y, new_z);
 
@@ -139,7 +114,7 @@
         view.on('dblclick.zoom', null);
 
         // Sync d3 zoom with camera z position
-        zoom.scaleTo(view, far_plane);
+        zoom.scaleTo(view, 10000);
 
         // Three.js render loop
         function animate() {
@@ -150,9 +125,9 @@
 
         // From https://github.com/anvaka/three.map.control, used for panning
         function getCurrentScale() {
-        var vFOV = camera.fov * Math.PI / 180
-        var scale_height = 2 * Math.tan( vFOV / 2 ) * camera.position.z
-        var currentScale = height / scale_height
+        let vFOV = camera.fov * Math.PI / 180
+        let scale_height = 2 * Math.tan( vFOV / 2 ) * camera.position.z
+        let currentScale = height / scale_height
         return currentScale
         }
 

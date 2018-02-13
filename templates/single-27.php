@@ -363,7 +363,6 @@
         //____________________________________________________________________________
 
         //set up webGL renderer
-        glRenderer = new THREE.WebGLRenderer();
         glRenderer = new THREE.WebGLRenderer( { alpha: true } );
         glRenderer.setClearColor( 0x000000, 0 );
         glRenderer.setSize( windowWidth, windowHeight);
