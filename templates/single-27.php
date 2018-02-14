@@ -28,8 +28,8 @@
         let cssScene, cssRenderer;
         let light;
         let mouseX = 0, mouseY = 0;
-        let windowWidth = $(".visualization").innerWidth(),
-          windowHeight = $(".visualization").innerHeight();
+        let windowWidth = $(".visualization").innerWidth();
+        let windowHeight = $(".visualization").innerHeight();
         let realData;
         let startPosition;
         let vFOVRadians, controls, line, fov, graphLine;
@@ -380,14 +380,13 @@
         //----------------------------------------------------------------------------
 
         function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
+          requestAnimationFrame(animate);
+          controls.update();
         }
 
         function render() {
-        camera.lookAt( glScene.position );
-        glRenderer.render( glScene, camera );
-
+          camera.lookAt( glScene.position );
+          glRenderer.render( glScene, camera );
         }
 
 
@@ -396,11 +395,13 @@
         //----------------------------------------------------------------------------
         function onWindowResize() {
 
-        camera.aspect = windowWidth / windowHeight;
-        camera.updateProjectionMatrix();
+          windowWidth = $(".visualization").innerWidth(),
+          windowHeight = $(".visualization").innerHeight();
+          camera.aspect = windowWidth / windowHeight;
+          camera.updateProjectionMatrix();
 
-        glRenderer.setSize( windowWidth, windowHeight );
-        render();
+          glRenderer.setSize( windowWidth, windowHeight );
+          render();
 
         }
 
