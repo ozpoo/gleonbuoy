@@ -1,1 +1,1 @@
-!function(n,o,t){n(function(){"use strict";n(window).load(function(){n("body").addClass("show"),n(document).on("click",".menu button",function(){n(this).closest(".menu").find(".list").toggleClass("show")})})})}(jQuery);
+!function(o,n,t){o(function(){"use strict";o(window).load(function(){o("body").addClass("show"),o(document).on("click",".menu-toggle button",function(){o(".list").toggleClass("show")})})})}(jQuery);

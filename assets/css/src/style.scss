@@ -71,12 +71,6 @@
     }
 }
 
-::selection {
-	background: #04a4cc;
-	color: #ffffff;
-	text-shadow: none;
-}
-
 $white: #fcfaf7;
 $black: #222222;
 $blue: #5000ff;
@@ -86,6 +80,12 @@ $unit-1: calc(6px + .4vw);
 $unit-2: calc(12px + .8vw);
 $unit-3: calc(18px + 1.2vw);
 $unit-4: calc(24px + 1.6vw);
+
+::selection {
+	background: $white;
+	color: $blue;
+	text-shadow: none;
+}
 
 * {
 	// font-smoothing: antialiased;
@@ -104,17 +104,17 @@ $unit-4: calc(24px + 1.6vw);
 }
 
 html {
-  background: #222222;
+  background: $black;
 	font-size: 62.5%;
 }
 
 body {
   backface-visibility: hidden;
-  background: $grey;
-  color: $black;
+  background: $black;
+  color: $white;
 	font-family: $font-regular;
 	font-size: 18px;
-  font-size: calc(14px+ .4vw + .4vh);
+  font-size: calc(15px + .4vw + .4vh);
   font-weight: 300;
   letter-spacing: .06em;
   line-height: 1.4;
@@ -141,7 +141,7 @@ h1, h2, h3, h4 {
 }
 
 a {
-  color: $black;
+  color: $white;
 	text-decoration: none;
 
 	&:focus {
@@ -176,19 +176,14 @@ strong {
 }
 
 .menu-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #222222;
-  color: white;
+  z-index: 10;
 }
 
 .st0 {
-  fill: $black;
-  stroke: none;
+  fill: none;
+  stroke: $white;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
 }
 
 .st3{
@@ -213,31 +208,43 @@ strong {
   }
 }
 
-.title {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-}
+header {
 
-.menu {
-  position: fixed;
-  top: 0px;
-  right: 0px;
+  .title {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    color: white;
+    z-index: 10;
+  }
+
+  .menu-toggle {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+  }
 
   .list {
     position: absolute;
+    top: 0px;
     right: 0px;
-    bottom: 0px;
-    transform: translate3d(0, 70%, 0);
+    width: 100vw;
+    height: 100vh;
+    padding: 25vh 0;
+    overflow: scroll;
+    transform: translate3d(0, -100%, 0);
     backface-visibility: hidden;
+    background: $black;
     text-align: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 220ms cubic-bezier(.165, .84, .44, 1), transform 440ms cubic-bezier(.165, .84, .44, 1);
     will-change: opacity, transform;
+    z-index: 9;
 
     &.show {
-      transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 0, 0);
       opacity: 1;
       pointer-events: all;
     }
@@ -246,6 +253,22 @@ strong {
       font-family: 'Space Mono';
     }
   }
+
+  .next {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    color: white;
+    z-index: 10;
+  }
+
+  .previous {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    color: white;
+    z-index: 10;
+  }
 }
 
 .visualization {
@@ -253,20 +276,56 @@ strong {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  min-height: 100vh;
-
-  canvas {
-    display: block;
-    overflow: hidden;
-  }
+  height: 100vh;
 }
 
 #canvas {
-  width: 94vh;
-  height: 94vh;
+  // border-radius: 8px;
+  // box-shadow: 0 5px 15px 0 rgba(0, 0, 0, .15), 0 4px 8px 0 rgba(0, 0, 0, .1);
+  width: 100vh;
+  height: 100vh;
+  overflow: hidden;
   backface-visibility: hidden;
   transition: background 1220ms cubic-bezier(.165, .84, .44, 1);
   will-change: background;
+}
+
+.three{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  filter: brightness(.8);
+}
+
+.text-container {
+  // transition: transform 880ms cubic-bezier(.165, .84, .44, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backface-visibility: hidden;;
+  color: white;
+  font-family: 'AlphaHeadlinePro';
+  font-size: 6.8vw;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  will-change: transform;
+  z-index: 2;
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate3d(-50%, -50%, 0);
+  color: white;
+  font-family: 'AlphaHeadlinePro';
+  font-size: 6.8vw;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  z-index: 3;
 }
 
 @media only screen and (max-width: 680px) {
@@ -276,7 +335,7 @@ strong {
 @media screen and (orientation: portrait) {
 
   #canvas {
-    width: 94vw;
-    height: 94vw;
+    width: 100vw;
+    height: 100vw;
   }
 }

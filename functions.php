@@ -22,37 +22,158 @@ if (function_exists('add_theme_support')) {
 }
 
 function header_scripts() {
-    if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
-    	wp_register_script('conditionizr',
-        get_template_directory_uri() . '/assets/js/_lib/conditionizr-4.3.0.min.js',
-        array(), '4.3.0');
-        wp_enqueue_script('conditionizr');
+  if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
-        wp_register_script('modernizr',
-          get_template_directory_uri() . '/assets/js/_lib/modernizr-2.7.1.min.js',
-          array(), '2.7.1');
-        wp_enqueue_script('modernizr');
+		wp_register_script('p5',
+			get_template_directory_uri() . '/assets/js/_lib/p5/p5.min.js',
+			array('jquery'), '1.0.0');
+		wp_enqueue_script('p5');
 
-        wp_register_script('js-cookie',
-          get_template_directory_uri() . '/assets/js/_lib/js-cookie/js.cookie.js',
-          array(), '1.0.0');
-        wp_enqueue_script('js-cookie');
+		wp_register_script('processing',
+			get_template_directory_uri() . '/assets/js/_lib/processing/processing.min.js',
+			array('jquery'), '1.0.0');
+		wp_enqueue_script('processing');
 
-        wp_register_script('tinycolor',
-          get_template_directory_uri() . '/assets/js/_lib/tinycolor2/dist/tinycolor-min.js',
-          array(), '1.0.0');
-        wp_enqueue_script('tinycolor');
+		wp_register_script('detector',
+			get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Detector.js',
+			array('jquery'), '1.0.0');
+		wp_enqueue_script('detector');
 
-        wp_register_script('fontawesome',
-          get_template_directory_uri() . '/assets/font/Font Awesome/svg-with-js/js/fontawesome-all.min.js',
-          array('jquery'), '1.0.0');
-        wp_enqueue_script('fontawesome');
+		wp_register_script('three',
+			get_template_directory_uri() . '/assets/js/_lib/three/build/three.min.js',
+			array('jquery'), '1.0.0');
+		wp_enqueue_script('three');
 
-        wp_register_script('script',
-          get_template_directory_uri() . '/assets/js/build/build.js?v='.time(),
-          array('jquery'), '1.0.0');
-        wp_enqueue_script('script');
-    }
+    wp_register_script('OrbitControls',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/controls/OrbitControls.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('OrbitControls');
+
+    wp_register_script('OceanShaders',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/OceanShaders.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('OceanShaders');
+
+    wp_register_script('Ocean',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Ocean.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('Ocean');
+
+		wp_register_script('d3',
+			'https://d3js.org/d3.v4.min.js',
+			array('jquery'), '1.0.0');
+		wp_enqueue_script('d3');
+
+    wp_register_script('BleachBypassShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/BleachBypassShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('BleachBypassShader');
+
+    wp_register_script('ColorifyShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ColorifyShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('ColorifyShader');
+
+    wp_register_script('ConvolutionShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ConvolutionShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('ConvolutionShader');
+
+    wp_register_script('CopyShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/CopyShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('CopyShader');
+
+    wp_register_script('DotScreenShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/DotScreenShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('DotScreenShader');
+
+    wp_register_script('FilmShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/FilmShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('FilmShader');
+
+    wp_register_script('HorizontalBlurShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/HorizontalBlurShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('HorizontalBlurShader');
+
+    wp_register_script('SepiaShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/SepiaShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('SepiaShader');
+
+    wp_register_script('VerticalBlurShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VerticalBlurShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('VerticalBlurShader');
+
+    wp_register_script('VignetteShader',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VignetteShader.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('VignetteShader');
+
+    wp_register_script('EffectComposer',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/EffectComposer.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('EffectComposer');
+
+    wp_register_script('RenderPass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/RenderPass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('RenderPass');
+
+    wp_register_script('BloomPass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/BloomPass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('BloomPass');
+
+    wp_register_script('FilmPass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/FilmPass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('FilmPass');
+
+    wp_register_script('DotScreenPass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/DotScreenPass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('DotScreenPass');
+
+    wp_register_script('TexturePass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/TexturePass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('TexturePass');
+
+    wp_register_script('ShaderPass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/ShaderPass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('ShaderPass');
+
+    wp_register_script('MaskPass',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/MaskPass.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('MaskPass');
+
+    wp_register_script('js-cookie',
+      get_template_directory_uri() . '/assets/js/_lib/js-cookie/js.cookie.js',
+      array(), '1.0.0');
+    wp_enqueue_script('js-cookie');
+
+    wp_register_script('tinycolor',
+      get_template_directory_uri() . '/assets/js/_lib/tinycolor2/dist/tinycolor-min.js',
+      array(), '1.0.0');
+    wp_enqueue_script('tinycolor');
+
+    wp_register_script('fontawesome',
+      get_template_directory_uri() . '/assets/font/Font Awesome/svg-with-js/js/fontawesome-all.min.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('fontawesome');
+
+    wp_register_script('script',
+      get_template_directory_uri() . '/assets/js/build/build.js?v='.time(),
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('script');
+  }
 }
 
 function conditional_scripts() {
@@ -79,15 +200,115 @@ function conditional_scripts() {
 				array('jquery'), '1.0.0');
 			wp_enqueue_script('three');
 
-			wp_register_script('controls',
-	      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/controls/OrbitControls.js',
-	      array('jquery'), '1.0.0');
-	    wp_enqueue_script('controls');
+      wp_register_script('OrbitControls',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/controls/OrbitControls.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('OrbitControls');
+
+      wp_register_script('OceanShaders',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/OceanShaders.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('OceanShaders');
+
+      wp_register_script('Ocean',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Ocean.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('Ocean');
 
 			wp_register_script('d3',
 				'https://d3js.org/d3.v4.min.js',
 				array('jquery'), '1.0.0');
 			wp_enqueue_script('d3');
+
+      wp_register_script('BleachBypassShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/BleachBypassShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('BleachBypassShader');
+
+      wp_register_script('ColorifyShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ColorifyShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('ColorifyShader');
+
+      wp_register_script('ConvolutionShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ConvolutionShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('ConvolutionShader');
+
+      wp_register_script('CopyShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/CopyShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('CopyShader');
+
+      wp_register_script('DotScreenShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/DotScreenShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('DotScreenShader');
+
+      wp_register_script('FilmShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/FilmShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('FilmShader');
+
+      wp_register_script('HorizontalBlurShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/HorizontalBlurShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('HorizontalBlurShader');
+
+      wp_register_script('SepiaShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/SepiaShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('SepiaShader');
+
+      wp_register_script('VerticalBlurShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VerticalBlurShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('VerticalBlurShader');
+
+      wp_register_script('VignetteShader',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VignetteShader.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('VignetteShader');
+
+      wp_register_script('EffectComposer',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/EffectComposer.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('EffectComposer');
+
+      wp_register_script('RenderPass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/RenderPass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('RenderPass');
+
+      wp_register_script('BloomPass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/BloomPass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('BloomPass');
+
+      wp_register_script('FilmPass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/FilmPass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('FilmPass');
+
+      wp_register_script('DotScreenPass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/DotScreenPass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('DotScreenPass');
+
+      wp_register_script('TexturePass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/TexturePass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('TexturePass');
+
+      wp_register_script('ShaderPass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/ShaderPass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('ShaderPass');
+
+      wp_register_script('MaskPass',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/MaskPass.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('MaskPass');
 		}
   }
 }
@@ -102,6 +323,11 @@ function styles() {
     get_template_directory_uri() . '/assets/font/Sofia Pro/stylesheet.css',
     array(), '1.0', 'all');
   wp_enqueue_style('Sofia Pro');
+
+  wp_register_style('Alpha',
+    get_template_directory_uri() . '/assets/font/Alpha Headline/stylesheet.css',
+    array(), '1.0', 'all');
+  wp_enqueue_style('Alpha');
 
   wp_register_style('style',
     get_template_directory_uri() . '/assets/css/build/build.css?v='.time(),

@@ -38,7 +38,7 @@
     function draw() {
       if(loop) {
         //clean background each 1700 frames
-        fill(0, 0, 0);
+        fill('#2234C9');
         noStroke();
         if(frameCount % 1700 == 0) clear();
         //move the points
@@ -50,7 +50,7 @@
         //set the style of the circle
         dc = map(millis(), 0, 150000, 0, 360);  //slowly changes hue
         stroke((c + dc) % 360, 50, 100, 5);
-        stroke(0);
+        stroke('#2234C9');
         noFill();
         //verifies if there is a circle and draw it
         var Det = (points[0].p.x * points[1].p.y)  + (points[1].p.x * points[2].p.y) + (points[2].p.x * points[0].p.y);

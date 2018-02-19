@@ -30,12 +30,12 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
-      colorMode(RGB, 255, 255, 255, 1);
       data = new Array();
       position = 0;
       loop = true;
       frameRate(10);
       background(230);
+      noFill();
       // Temperature, DO, DOS
       data.push([56.5, 9.28, 88.9]);  //0
       data.push([56.23, 9.06, 86.8]); //10
@@ -53,26 +53,20 @@
     }
 
     function draw() {
-      if(loop) {
-        noStroke(0);
-        fill(20, 20, 20, 0.3);
-          push();
-          translate(200, 200);
-          beginShape();
-          if(data[position]) {
-            var x = map(data[position][0], 55.85, 56.5, 0, 600);
-            var y = map(data[position][1], 8.67, 9.28, 0, 200);
-            var z = map(data[position][2], 83.1, 88.9, 0, 80);
-            ellipse(x, y, z)
-            position++;
-          } else {
-            // clear();
-            // position = 0;
-            noLoop();
-          }
-          endShape();
-        pop();
+      stroke("#2234C9");
+      push();
+      translate(200, 200);
+      beginShape();
+      if(data[position]) {
+        var x = map(data[position][0], 55.85, 56.5, 0, 600);
+        var y = map(data[position][1], 8.67, 9.28, 0, 200);
+        var z = map(data[position][2], 83.1, 88.9, 0, 80);
+        ellipse(x, y, z)
+        position++;
+      } else {
       }
+      endShape();
+      pop();
     }
 
     function windowResized() {

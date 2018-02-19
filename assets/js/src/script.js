@@ -8,8 +8,8 @@
 
 			$("body").addClass("show");
 
-			$(document).on("click", ".menu button", function(){
-				$(this).closest(".menu").find(".list").toggleClass("show");
+			$(document).on("click", ".menu-toggle button", function(){
+				$(".list").toggleClass("show");
 			});
 
 		});

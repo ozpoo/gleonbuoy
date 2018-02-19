@@ -13,12 +13,7 @@
 		<meta name="description" content="<?php bloginfo('description'); ?>">
 
 		<?php wp_head(); ?>
-		<script>
-      conditionizr.config({
-        assets: '<?php echo get_template_directory_uri(); ?>',
-        tests: {}
-      });
-    </script>
+
 		<script>
 				document.createElement( "picture" );
 		</script>
@@ -29,35 +24,66 @@
 		<header>
 
 			<section class="title">
-				<p><?php the_title(); ?></p>
+				<p><a href="<?php echo site_url( '/', 'http' ); ?>">GLEON Viz</a></p>
 			</section>
 
-			<section class="menu">
+			<section class="menu-toggle">
 				<p>
-					<button class="menu-button">
-						<svg version="1.1"
-							 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-							 x="0px" y="0px" width="30px" height="30px" viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
-						<style type="text/css">
-							.st0{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
-						</style>
-						<line class="st0" x1="0" y1="15" x2="30" y2="15"/>
-						<line class="st0" x1="15" y1="0" x2="15" y2="30"/>
-						</svg>
-					</button>
+					<button class="menu-button">M</button>
 				</p>
-        <div class="list">
-          <?php
-          $wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1, 'order'=>'DESC')); ?>
-          <?php if ( $wpb_all_query->have_posts() ) : ?>
-          <ul>
-            <?php while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
-              <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-            <?php endwhile; ?>
-          </ul>
-          <?php wp_reset_postdata(); ?>
-          <?php endif; ?>
-        </div>
+			</section>
+
+			<section class="list">
+				<?php
+				$wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1, 'order'=>'DESC')); ?>
+				<?php if ( $wpb_all_query->have_posts() ) : ?>
+				<ul>
+					<?php while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
+						<li>
+							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><br>
+							<small>Lorem ipsum dolor sit amet, consectetur adipiscing</small>
+						</li>
+					<?php endwhile; ?>
+				</ul>
+				<?php wp_reset_postdata(); ?>
+				<?php endif; ?>
+			</section>
+
+			<?php
+
+				if(is_home()){
+					$nextPost = new WP_Query('posts_per_page=1&order=DESC&post_type=post&orderby=menu_order');
+					$nextPost->the_post();
+					$nextPost = get_the_permalink( $nextPost->ID );
+					wp_reset_query();
+
+					$prevPost = new WP_Query('posts_per_page=1&order=ASC&post_type=post&orderby=menu_order');
+					$prevPost->the_post();
+					$prevPost = get_the_permalink( $prevPost->ID );
+					wp_reset_query();
+				} else {
+					if(get_adjacent_post(false, '', true )){
+						$prevPost = get_adjacent_post(false, '', true );
+						$prevPost = get_the_permalink( $prevPost->ID );
+					} else {
+						$prevPost = site_url( '/', 'http' );
+					}
+					if(get_adjacent_post(false, '', false )){
+						$nextPost = get_adjacent_post(false, '', false );
+						$nextPost = get_the_permalink( $nextPost->ID );
+					} else {
+						$nextPost = site_url( '/', 'http' );
+					}
+				}
+
+			?>
+
+			<section class="previous">
+				<p><a href="<?php echo $prevPost; ?>">P</a></p>
+			</section>
+
+			<section class="next">
+				<p><a href="<?php echo $nextPost; ?>">N</a></p>
 			</section>
 
 		</header>

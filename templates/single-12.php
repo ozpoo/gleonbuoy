@@ -27,7 +27,6 @@
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
       noStroke();
-      colorMode(RGB, 255, 255, 255, 1);
       noFill();
       strokeWeight(2);
       loop = true;
@@ -44,7 +43,7 @@
           var X = sqrt(sq(radius) - sq(y)) * map(wave, 0, 1, 1, 1.1);
           var cRate = map(y, -radius + step / 2, radius + step / 2, 0, 1);
           // stroke(lerpColor(color(69, 189, 207), color(234, 84, 93), cRate));
-          stroke(20, 20, 20, 1);
+          stroke("#2234C9");
           push();
           translate(width / 2, height / 2);
           beginShape();

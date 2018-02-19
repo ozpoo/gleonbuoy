@@ -21,10 +21,9 @@
     function setup() {
       canvas = createCanvas(window.innerWidth, window.innerHeight);
       canvas.parent("canvas");
-      colorMode(HSB, 360, 100, 100, 100);
       c = random(360);
+      background(230);
 
-      //create the points
       points = new Array();
       for(var i = 0; i < 3; i++) {
         points[i] = new Points(random(width), random(height));
@@ -32,29 +31,22 @@
     }
 
     function draw() {
-      //clean background each 1700 frames
-      fill(0, 0, 0);
-      noStroke();
       if(frameCount % 1700 == 0) clear();
 
-      //move the points
       for(var i = 0; i < points.length; i++) {
-        if(random(1) > 0.96) points[i].setDir(random(-PI, PI));  //change direction sometimes
+        if(random(1) > 0.96) points[i].setDir(random(-PI, PI));
         points[i].update();
         points[i].checkEdges();
       }
 
-      //set the style of the circle
-      dc = map(millis(), 0, 150000, 0, 360);  //slowly changes hue
+      dc = map(millis(), 0, 150000, 0, 360);
       stroke((c + dc) % 360, 50, 100, 5);
-      stroke(0);
+      stroke("#2234C9");
       noFill();
 
-      //verifies if there is a circle and draw it
       var Det = (points[0].p.x * points[1].p.y)  + (points[1].p.x * points[2].p.y) + (points[2].p.x * points[0].p.y);
       Det -= (points[0].p.y * points[1].p.x)  + (points[1].p.y * points[2].p.x) + (points[2].p.y * points[0].p.x);
       if(abs(Det) > 50.)  circle(points);
-
     }
 
     function windowResized() {

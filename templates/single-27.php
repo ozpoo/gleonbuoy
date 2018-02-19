@@ -43,9 +43,9 @@
         };
 
         $.getJSON( "<?php echo get_template_directory_uri(); ?>/assets/data/27/2005-2015.json", function( data ) {
-        realData = data;
-        init();
-        render();
+          realData = data;
+          init();
+          render();
         });
 
         let graphDimensions = {
@@ -57,12 +57,12 @@
         function labelAxis(width, data, direction){
 
         let separator = 2*width/data.length,
-            p = {
-              x:0,
-              y:0,
-              z:0
-            },
-            dobj = new THREE.Object3D();
+          p = {
+            x:0,
+            y:0,
+            z:0
+          },
+          dobj = new THREE.Object3D();
 
         for ( let i = 0; i < data.length; i ++ ) {
           let label = makeTextSprite(data[i]);

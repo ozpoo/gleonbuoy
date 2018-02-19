@@ -24,7 +24,7 @@
 
     function init() {
       dom = document.getElementById("canvas");
-      background = tinycolor("rgba (255, 0, 0, .2)").desaturate(50);
+      background = tinycolor("rgba (255, 0, 0, 1)");
       dom.style.backgroundColor = background.toString();
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
