@@ -9,14 +9,15 @@
 			$("body").addClass("show");
 
 			$(document).on("click", ".menu-toggle button", function(){
-				$(".list").toggleClass("show");
+				$(".menu-modal").toggleClass("show");
+			});
+
+			$(document).on("click", ".about-toggle button", function(){
+				$(".description").toggleClass("show");
 			});
 
 			setTimeout(function(){
-				$(".title").addClass("show").delay(220);
-				$(".menu-toggle").addClass("show").delay(220);
-				$(".next").addClass("show").delay(220);
-				$(".previous").addClass("show").delay(220);
+				$(".title, .menu-toggle, .next, .previous").addClass("show");
 			}, 440);
 
 		});

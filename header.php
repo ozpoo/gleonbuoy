@@ -24,7 +24,7 @@
 		<header>
 
 			<section class="title">
-				<p><a class="hover-text" href="<?php echo site_url( '/', 'http' ); ?>">A<span>bout</span></a></p>
+				<p><a class="hover-text" href="<?php echo site_url( '/', 'http' ); ?>">I<span>ntro</span></a></p>
 			</section>
 
 			<section class="menu-toggle">
@@ -33,7 +33,8 @@
 				</p>
 			</section>
 
-			<section class="list">
+			<section class="menu-modal">
+				<p><a href="<?php echo site_url( '/', 'http' ); ?>">Intro</a> <a href="<?php echo site_url( '/grid', 'http' ); ?>">Grid</a> <a href="<?php echo site_url( '/list', 'http' ); ?>">List</a></p>
 				<?php
 				$wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1, 'order'=>'DESC')); ?>
 				<?php if ( $wpb_all_query->have_posts() ) : ?>
@@ -41,17 +42,20 @@
 					<?php while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
 						<li>
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><br>
-							<small>Lorem ipsum dolor sit amet, consectetur adipiscing</small>
 						</li>
 					<?php endwhile; ?>
 				</ul>
 				<?php wp_reset_postdata(); ?>
 				<?php endif; ?>
+				<section class="description">
+					<p>Eos fastidii invenire no. Te wisi referrentur mei. Equidem adipiscing ut eos. Qui diceret convenire eu, eam adhuc reprimique disputationi in.</p>
+					<p>Lorem ipsum dolor sit amet, ad bonorum conceptam his, no mea dicant constituam delicatissimi, has animal persequeris in. Mollis omnium prompta mei at. Eum te omnium scripta scribentur, te mea impetus iudicabit. Quaestio partiendo accommodare sea ne. Consequat rationibus eu sea, ne ius melius feugait evertitur, an tritani dissentiunt eum. At quo posse persius invidunt, solum malorum sanctus in eam.</p>
+				</section>
 			</section>
 
 			<?php
 
-				if(is_home()){
+				if(is_page("intro")){
 					$nextPost = new WP_Query('posts_per_page=1&order=DESC&post_type=post&orderby=menu_order');
 					$nextPost->the_post();
 					$nextPost = get_the_permalink( $nextPost->ID );

@@ -46,7 +46,7 @@ function header_scripts() {
 }
 
 function conditional_scripts() {
-  if(is_home()) {
+  if(is_page("intro")) {
 		wp_register_script('three',
 			get_template_directory_uri() . '/assets/js/_lib/three/build/three.min.js',
 			array('jquery'), '1.0.0');
@@ -157,7 +157,7 @@ function conditional_scripts() {
     //   array('jquery'), '1.0.0');
     // wp_enqueue_script('MaskPass');
 
-  } elseif ( is_single() ) {
+  } elseif ( is_single() || is_page("grid") ) {
 		$library = get_field("library")[0];
 		if($library == "p5.js") {
 			wp_register_script('p5',
@@ -169,7 +169,7 @@ function conditional_scripts() {
 				get_template_directory_uri() . '/assets/js/_lib/processing/processing.min.js',
 				array('jquery'), '1.0.0');
 			wp_enqueue_script('processing');
-		} else if($library == "three.js") {
+		} else if($library == "three.js" || is_page("grid")) {
 			wp_register_script('detector',
 				get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Detector.js',
 				array('jquery'), '1.0.0');
@@ -289,6 +289,11 @@ function conditional_scripts() {
         get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/MaskPass.js',
         array('jquery'), '1.0.0');
       wp_enqueue_script('MaskPass');
+
+      wp_register_script('AnaglyphEffect',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/effects/AnaglyphEffect.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('AnaglyphEffect');
 		}
 
     $url = get_template_directory_uri() . "/assets/data/GLEON_XML/split_files/GLEON-2-1.xml";
@@ -441,5 +446,28 @@ function my_js_variables(){ ?>
       var canvasHeight = 720;
     </script><?php
 }
-add_action ( 'wp_head', 'my_js_variables' )
+add_action ( 'wp_head', 'my_js_variables' );
+
+function my_modify_main_query( $query ) {
+  if ( $query->is_home() && $query->is_main_query() ) {
+    $query->query_vars['orderby'] = 'title';
+    $query->query_vars['order'] = 'ASC';
+    $query->query_vars['posts_per_page'] = -1;
+  }
+}
+add_action( 'pre_get_posts', 'my_modify_main_query' );
+
+function add_slug_body_class( $classes ) {
+  global $post;
+  if ( isset( $post ) ) {
+    if(is_home()) {
+      $classes[] = 'list';
+    } else {
+      $classes[] = $post->post_type . '-' . $post->post_name;
+    }
+
+  }
+  return $classes;
+}
+add_filter( 'body_class', 'add_slug_body_class' );
 ?>
