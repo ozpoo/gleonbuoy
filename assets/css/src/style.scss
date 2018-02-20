@@ -175,6 +175,30 @@ strong {
   font-weight: 600;
 }
 
+.hover-text {
+
+  span {
+    display: none;
+    vertical-align: middle;
+
+    &.left {
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    &.right {
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+  }
+
+  &:hover {
+    span {
+      display: inline-block;
+    }
+  }
+}
+
 .menu-button {
   z-index: 10;
 }
@@ -298,7 +322,6 @@ header {
 }
 
 .text-container {
-  // transition: transform 880ms cubic-bezier(.165, .84, .44, 1);
   position: fixed;
   top: 0;
   left: 0;
@@ -310,6 +333,7 @@ header {
   font-size: 6.8vw;
   letter-spacing: .06em;
   text-transform: uppercase;
+  transition: transform 880ms cubic-bezier(.165, .84, .44, 1);
   will-change: transform;
   z-index: 2;
 }

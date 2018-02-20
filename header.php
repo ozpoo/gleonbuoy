@@ -24,12 +24,12 @@
 		<header>
 
 			<section class="title">
-				<p><a href="<?php echo site_url( '/', 'http' ); ?>">GLEON Viz</a></p>
+				<p><a class="hover-text" href="<?php echo site_url( '/', 'http' ); ?>">A<span>bout</span></a></p>
 			</section>
 
 			<section class="menu-toggle">
 				<p>
-					<button class="menu-button">M</button>
+					<button class="hover-text" class="menu-button">M<span>enu</span></button>
 				</p>
 			</section>
 
@@ -79,11 +79,11 @@
 			?>
 
 			<section class="previous">
-				<p><a href="<?php echo $prevPost; ?>">P</a></p>
+				<p><a class="hover-text" href="<?php echo $prevPost; ?>">P<span>revious</span></a></p>
 			</section>
 
 			<section class="next">
-				<p><a href="<?php echo $nextPost; ?>">N</a></p>
+				<p><a class="hover-text" href="<?php echo $nextPost; ?>">N<span>ext</span></a></p>
 			</section>
 
 		</header>
