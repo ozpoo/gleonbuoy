@@ -23,6 +23,10 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight, WEBGL);
       canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
       noiseDetail(8);
       resolution = 260; // how many points in the circle
       rad = 150;
@@ -36,34 +40,25 @@
     }
 
     function draw() {
-      if(loop) {
-        background(230);
-        noFill();
-        stroke("#2234C9");
-        strokeWeight(1);
-        nInt = map(mouseX, 0, width, 0.1, 30); // map mouseX to noise intensity
-        nAmp = map(mouseY, 0, height, 0.0, 1.0); // map mouseY to noise amplitude
+      background(25, 25, 25, 1);
+      nInt = map(mouseX, 0, width, 0.1, 30); // map mouseX to noise intensity
+      nAmp = map(mouseY, 0, height, 0.0, 1.0); // map mouseY to noise amplitude
 
-        beginShape();
-        for(var a = 0; a <= TWO_PI; a += TWO_PI / resolution) {
-          nVal = map(noise( cos(a)*nInt+1, sin(a)*nInt+1, t ), 0.0, 1.0, nAmp, 1.0); // map noise value to match the amplitude
-          x = cos(a)*rad *nVal;
-          y = sin(a)*rad *nVal;
-          vertex(x, y);
-          }
-        endShape(CLOSE);
+      beginShape();
+      for(var a = 0; a <= TWO_PI; a += TWO_PI / resolution) {
+        nVal = map(noise( cos(a)*nInt+1, sin(a)*nInt+1, t ), 0.0, 1.0, nAmp, 1.0); // map noise value to match the amplitude
+        x = cos(a)*rad *nVal;
+        y = sin(a)*rad *nVal;
+        vertex(x, y);
+        }
+      endShape(CLOSE);
 
-        t += tChange;
-      }
+      t += tChange;
     }
 
     function windowResized() {
       resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
-    }
-
-    function mousePressed() {
-      // loop = !loop;
     }
 
 	</script>

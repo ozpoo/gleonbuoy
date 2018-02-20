@@ -26,8 +26,10 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight, WEBGL);
       canvas.parent("canvas");
-      noStroke();
-      fill("#2234C9");
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
       city = new Array();
       num = 0;
       loop = true;
@@ -43,17 +45,15 @@
     }
 
     function draw() {
-      if(loop) {
-        background(230);
-        rotateX(-radians(20));
-        rotateY(radians(45+num));
-        pointLight(255, 255, 255, -width, -height, -width);
-        for (var i = 0; i < city.length; i++) {
-          var b = city[i];
-          b.draw();
-        }
-        num+=0.3;
+      background(25, 25, 25, 1);
+      rotateX(-radians(20));
+      rotateY(radians(45+num));
+      pointLight(255, 255, 255, -width, -height, -width);
+      for (var i = 0; i < city.length; i++) {
+        var b = city[i];
+        b.draw();
       }
+      num+=0.3;
     }
 
     function Building(loc, size) {
@@ -74,10 +74,6 @@
     function windowResized() {
       resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
-    }
-
-    function mousePressed() {
-      // loop = !loop;
     }
 
 	</script>

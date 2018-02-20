@@ -56,28 +56,28 @@
 
         function labelAxis(width, data, direction){
 
-        let separator = 2*width/data.length,
-          p = {
-            x:0,
-            y:0,
-            z:0
-          },
-          dobj = new THREE.Object3D();
+          let separator = 2*width/data.length,
+            p = {
+              x:0,
+              y:0,
+              z:0
+            },
+            dobj = new THREE.Object3D();
 
-        for ( let i = 0; i < data.length; i ++ ) {
-          let label = makeTextSprite(data[i]);
+          for ( let i = 0; i < data.length; i ++ ) {
+            let label = makeTextSprite(data[i]);
 
-          label.position.set(p.x,p.y,p.z);
+            label.position.set(p.x,p.y,p.z);
 
-          dobj.add( label );
-          if (direction=="y"){
-            p[direction]+=separator;
-          }else{
-            p[direction]-=separator;
+            dobj.add( label );
+            if (direction=="y"){
+              p[direction]+=separator;
+            }else{
+              p[direction]-=separator;
+            }
+
           }
-
-        }
-        return dobj;
+          return dobj;
         }
 
 
@@ -288,7 +288,7 @@
         //    data
         //____________________________________________________________________________
 
-        gridInit();
+        // gridInit();
 
         let wireframeMaterial = new THREE.MeshBasicMaterial( {
                                   side:THREE.DoubleSide,

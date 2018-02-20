@@ -22,7 +22,11 @@
       canvas = createCanvas(window.innerWidth, window.innerHeight);
       canvas.parent("canvas");
       c = random(360);
-      background(230);
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
+      background(25, 25, 25, 1);
 
       points = new Array();
       for(var i = 0; i < 3; i++) {
@@ -40,9 +44,7 @@
       }
 
       dc = map(millis(), 0, 150000, 0, 360);
-      stroke((c + dc) % 360, 50, 100, 5);
-      stroke("#2234C9");
-      noFill();
+      // stroke((c + dc) % 360, 50, 100, 5);
 
       var Det = (points[0].p.x * points[1].p.y)  + (points[1].p.x * points[2].p.y) + (points[2].p.x * points[0].p.y);
       Det -= (points[0].p.y * points[1].p.x)  + (points[1].p.y * points[2].p.x) + (points[2].p.y * points[0].p.x);

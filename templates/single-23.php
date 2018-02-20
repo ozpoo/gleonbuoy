@@ -17,12 +17,21 @@
 	<script>
 
     let data, position;
+    let dom;
 
     function setup() {
-      canvas = createCanvas(canvasWidth, canvasHeight);
-      canvas.parent("canvas");
+      init();
+    }
 
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
+      canvas.parent("canvas");
       colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
+      background(25, 25, 25, 1);
 
       data = new Array();
       position = 0;
@@ -45,9 +54,7 @@
     }
 
     function draw() {
-      translate(200, 200);
-      noStroke(0);
-      fill(0, 0, 255, 1);
+      translate(width / 2, height / 2);
       push();
         beginShape();
         while(data[position]) {
@@ -59,6 +66,11 @@
         }
         endShape();
       pop();
+    }
+
+    function windowResized() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
     }
 
 	</script>

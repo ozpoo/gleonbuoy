@@ -26,8 +26,12 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
+      background(25, 25, 25, 1);
       c = random(360);
-      background(230);
       loop = true;
       points = new Array();
       for(var i = 0; i < 3; i++) {
@@ -36,27 +40,20 @@
     }
 
     function draw() {
-      if(loop) {
-        //clean background each 1700 frames
-        fill('#2234C9');
-        noStroke();
-        if(frameCount % 1700 == 0) clear();
-        //move the points
-        for(var i = 0; i < points.length; i++) {
-          if(random(1) > 0.96) points[i].setDir(random(-PI, PI));  //change direction sometimes
-          points[i].update();
-          points[i].checkEdges();
-        }
-        //set the style of the circle
-        dc = map(millis(), 0, 150000, 0, 360);  //slowly changes hue
-        stroke((c + dc) % 360, 50, 100, 5);
-        stroke('#2234C9');
-        noFill();
-        //verifies if there is a circle and draw it
-        var Det = (points[0].p.x * points[1].p.y)  + (points[1].p.x * points[2].p.y) + (points[2].p.x * points[0].p.y);
-        Det -= (points[0].p.y * points[1].p.x)  + (points[1].p.y * points[2].p.x) + (points[2].p.y * points[0].p.x);
-        if(abs(Det) > 50.)  circle(points);
+      //move the points
+      for(var i = 0; i < points.length; i++) {
+        if(random(1) > 0.96) points[i].setDir(random(-PI, PI));  //change direction sometimes
+        points[i].update();
+        points[i].checkEdges();
       }
+      //set the style of the circle
+      dc = map(millis(), 0, 150000, 0, 360);  //slowly changes hue
+      // stroke((c + dc) % 360, 50, 100, 5);
+
+      //verifies if there is a circle and draw it
+      var Det = (points[0].p.x * points[1].p.y)  + (points[1].p.x * points[2].p.y) + (points[2].p.x * points[0].p.y);
+      Det -= (points[0].p.y * points[1].p.x)  + (points[1].p.y * points[2].p.x) + (points[2].p.y * points[0].p.x);
+      if(abs(Det) > 50.)  circle(points);
     }
 
     function windowResized() {

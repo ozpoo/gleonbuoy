@@ -27,9 +27,12 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
-      stroke(255);
+      colorMode(RGB, 255, 255, 255, 1);
       noFill();
-      xstep = 5;
+      stroke(255);
+      strokeWeight(1);
+      smooth();
+      xstep = 20;
       ystep = 20;
       y = 0;
       nx = random(100);
@@ -38,22 +41,20 @@
     }
 
     function draw() {
-      if(loop) {
-        background(25);
-        for (let j = 0; height+ystep > j; j+=ystep) {
-          beginShape();
-          vertex(0, j);
-          for (let i = 0; i < width+xstep; i+=xstep) {
-            nx = i/234;
-            ny = j/165;
-            y = map(noise(nx, ny, nz), 0, 1, -100, 100)+j;
-            curveVertex(i, y);
-          }
-          vertex(width, j);
-          endShape();
+      background(25, 25, 25, 1);
+      for (let j = 0; height+ystep > j; j+=ystep) {
+        beginShape();
+        vertex(0, j);
+        for (let i = 0; i < width+xstep; i+=xstep) {
+          nx = i/234;
+          ny = j/165;
+          y = map(noise(nx, ny, nz), 0, 1, -100, 100)+j;
+          curveVertex(i, y);
         }
-        nz+=.01;
+        vertex(width, j);
+        endShape();
       }
+      nz+=.02;
     }
 
     function windowResized() {
@@ -61,9 +62,6 @@
       init();
     }
 
-    function mousePressed() {
-      // loop = !loop;
-    }
 	</script>
 
 <?php get_footer(); ?>

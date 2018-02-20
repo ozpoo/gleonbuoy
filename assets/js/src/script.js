@@ -12,6 +12,13 @@
 				$(".list").toggleClass("show");
 			});
 
+			setTimeout(function(){
+				$(".title").addClass("show").delay(220);
+				$(".menu-toggle").addClass("show").delay(220);
+				$(".next").addClass("show").delay(220);
+				$(".previous").addClass("show").delay(220);
+			}, 440);
+
 		});
 
 	});

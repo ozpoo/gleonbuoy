@@ -26,13 +26,14 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
+      fill(255);
       noStroke();
       frameRate(10);
     }
 
     function draw() {
-      background(230);
-      fill("#2234C9");
+      background(25, 25, 25, 1);
       translate(width/2, height/2);
       drawRectWheel(80, 650, 1, 80, 55, 55);
     }

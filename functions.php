@@ -23,137 +23,6 @@ if (function_exists('add_theme_support')) {
 
 function header_scripts() {
   if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
-
-		wp_register_script('p5',
-			get_template_directory_uri() . '/assets/js/_lib/p5/p5.min.js',
-			array('jquery'), '1.0.0');
-		wp_enqueue_script('p5');
-
-		wp_register_script('processing',
-			get_template_directory_uri() . '/assets/js/_lib/processing/processing.min.js',
-			array('jquery'), '1.0.0');
-		wp_enqueue_script('processing');
-
-		wp_register_script('detector',
-			get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Detector.js',
-			array('jquery'), '1.0.0');
-		wp_enqueue_script('detector');
-
-		wp_register_script('three',
-			get_template_directory_uri() . '/assets/js/_lib/three/build/three.min.js',
-			array('jquery'), '1.0.0');
-		wp_enqueue_script('three');
-
-    wp_register_script('OrbitControls',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/controls/OrbitControls.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('OrbitControls');
-
-    wp_register_script('OceanShaders',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/OceanShaders.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('OceanShaders');
-
-    wp_register_script('Ocean',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Ocean.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('Ocean');
-
-		wp_register_script('d3',
-			'https://d3js.org/d3.v4.min.js',
-			array('jquery'), '1.0.0');
-		wp_enqueue_script('d3');
-
-    wp_register_script('BleachBypassShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/BleachBypassShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('BleachBypassShader');
-
-    wp_register_script('ColorifyShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ColorifyShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('ColorifyShader');
-
-    wp_register_script('ConvolutionShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ConvolutionShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('ConvolutionShader');
-
-    wp_register_script('CopyShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/CopyShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('CopyShader');
-
-    wp_register_script('DotScreenShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/DotScreenShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('DotScreenShader');
-
-    wp_register_script('FilmShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/FilmShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('FilmShader');
-
-    wp_register_script('HorizontalBlurShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/HorizontalBlurShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('HorizontalBlurShader');
-
-    wp_register_script('SepiaShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/SepiaShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('SepiaShader');
-
-    wp_register_script('VerticalBlurShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VerticalBlurShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('VerticalBlurShader');
-
-    wp_register_script('VignetteShader',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VignetteShader.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('VignetteShader');
-
-    wp_register_script('EffectComposer',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/EffectComposer.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('EffectComposer');
-
-    wp_register_script('RenderPass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/RenderPass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('RenderPass');
-
-    wp_register_script('BloomPass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/BloomPass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('BloomPass');
-
-    wp_register_script('FilmPass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/FilmPass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('FilmPass');
-
-    wp_register_script('DotScreenPass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/DotScreenPass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('DotScreenPass');
-
-    wp_register_script('TexturePass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/TexturePass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('TexturePass');
-
-    wp_register_script('ShaderPass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/ShaderPass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('ShaderPass');
-
-    wp_register_script('MaskPass',
-      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/MaskPass.js',
-      array('jquery'), '1.0.0');
-    wp_enqueue_script('MaskPass');
-
     wp_register_script('js-cookie',
       get_template_directory_uri() . '/assets/js/_lib/js-cookie/js.cookie.js',
       array(), '1.0.0');
@@ -177,7 +46,118 @@ function header_scripts() {
 }
 
 function conditional_scripts() {
-  if ( is_single() ) {
+  if(is_home()) {
+		wp_register_script('three',
+			get_template_directory_uri() . '/assets/js/_lib/three/build/three.min.js',
+			array('jquery'), '1.0.0');
+		wp_enqueue_script('three');
+
+    wp_register_script('OrbitControls',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/controls/OrbitControls.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('OrbitControls');
+
+    wp_register_script('OceanShaders',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/OceanShaders.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('OceanShaders');
+
+    wp_register_script('Ocean',
+      get_template_directory_uri() . '/assets/js/_lib/three/examples/js/Ocean.js',
+      array('jquery'), '1.0.0');
+    wp_enqueue_script('Ocean');
+
+    // wp_register_script('BleachBypassShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/BleachBypassShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('BleachBypassShader');
+    //
+    // wp_register_script('ColorifyShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ColorifyShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('ColorifyShader');
+    //
+    // wp_register_script('ConvolutionShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/ConvolutionShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('ConvolutionShader');
+    //
+    // wp_register_script('CopyShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/CopyShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('CopyShader');
+    //
+    // wp_register_script('DotScreenShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/DotScreenShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('DotScreenShader');
+    //
+    // wp_register_script('FilmShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/FilmShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('FilmShader');
+    //
+    // wp_register_script('HorizontalBlurShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/HorizontalBlurShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('HorizontalBlurShader');
+    //
+    // wp_register_script('SepiaShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/SepiaShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('SepiaShader');
+    //
+    // wp_register_script('VerticalBlurShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VerticalBlurShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('VerticalBlurShader');
+    //
+    // wp_register_script('VignetteShader',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/shaders/VignetteShader.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('VignetteShader');
+    //
+    // wp_register_script('EffectComposer',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/EffectComposer.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('EffectComposer');
+    //
+    // wp_register_script('RenderPass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/RenderPass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('RenderPass');
+    //
+    // wp_register_script('BloomPass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/BloomPass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('BloomPass');
+    //
+    // wp_register_script('FilmPass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/FilmPass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('FilmPass');
+    //
+    // wp_register_script('DotScreenPass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/DotScreenPass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('DotScreenPass');
+    //
+    // wp_register_script('TexturePass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/TexturePass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('TexturePass');
+    //
+    // wp_register_script('ShaderPass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/ShaderPass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('ShaderPass');
+    //
+    // wp_register_script('MaskPass',
+    //   get_template_directory_uri() . '/assets/js/_lib/three/examples/js/postprocessing/MaskPass.js',
+    //   array('jquery'), '1.0.0');
+    // wp_enqueue_script('MaskPass');
+
+  } elseif ( is_single() ) {
 		$library = get_field("library")[0];
 		if($library == "p5.js") {
 			wp_register_script('p5',
@@ -310,7 +290,19 @@ function conditional_scripts() {
         array('jquery'), '1.0.0');
       wp_enqueue_script('MaskPass');
 		}
+
+    $url = get_template_directory_uri() . "/assets/data/GLEON_XML/split_files/GLEON-2-1.xml";
+    $xml = simplexml_load_file($url);
+    $xml = json_encode($xml, JSON_PRETTY_PRINT);
+    wp_localize_script( 'script', 'GLEON_DATA', $xml );
   }
+}
+
+function xml2array ( $xmlObject, $out = array () ){
+    foreach ( (array) $xmlObject as $index => $node )
+        $out[$index] = ( is_object ( $node ) ) ? xml2array ( $node ) : $node;
+
+    return $out;
 }
 
 function styles() {
@@ -362,45 +354,6 @@ function add_slug_to_body_class($classes) {
     }
 
     return $classes;
-}
-
-function pagination() {
-    global $wp_query;
-    $big = 999999999;
-    echo paginate_links(array(
-        'base' => str_replace($big, '%#%', get_pagenum_link($big)),
-        'format' => '?paged=%#%',
-        'current' => max(1, get_query_var('paged')),
-        'total' => $wp_query->max_num_pages
-    ));
-}
-
-function html5wp_index($length) {
-    return 20;
-}
-
-function html5wp_custom_post($length) {
-    return 40;
-}
-
-function html5wp_excerpt($length_callback = '', $more_callback = '') {
-    global $post;
-    if (function_exists($length_callback)) {
-        add_filter('excerpt_length', $length_callback);
-    }
-    if (function_exists($more_callback)) {
-        add_filter('excerpt_more', $more_callback);
-    }
-    $output = get_the_excerpt();
-    $output = apply_filters('wptexturize', $output);
-    $output = apply_filters('convert_chars', $output);
-    $output = '<p>' . $output . '</p>';
-    echo $output;
-}
-
-function view_article($more) {
-    global $post;
-    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'html5blank') . '</a>';
 }
 
 function remove_admin_bar() {

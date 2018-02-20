@@ -17,7 +17,8 @@
 	<script>
 
 		let NB_FRAMES, NB, frame_count;
-    let Objects, curSeed, dom, loop;
+    let Objects, curSeed, dom;
+    let $data;
 
 		function setup() {
       init();
@@ -28,6 +29,9 @@
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
       colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
 			noiseSeed(curSeed);
 			randomSeed(1);
       smooth();
@@ -36,32 +40,24 @@
       frame_count = 0;
       Objects = [];
       curSeed = 11;
-      loop = true;
 			for(let i = 0; i < NB; i++) {
 				Objects[i] = new object(i);
 			}
+      // parseData();
     }
 
 		function draw() {
-      if(loop) {
-  			background(20, 20, 20, 1);
-  			let t = ((frame_count)%NB_FRAMES)/NB_FRAMES;
-  			for(let i=0;i<NB;i++) {
-  				Objects[i].draw();
-  			}
-  			noStroke();
-  			fill(255, 255, 255, 15);
-  			frame_count++;
-      }
+			background(25, 25, 25, 1);
+			let t = ((frame_count)%NB_FRAMES)/NB_FRAMES;
+			for(let i=1;i<NB;i++) {
+				Objects[i].draw();
+			}
+			frame_count++;
 		}
 
     function windowResized() {
       resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
-    }
-
-    function mousePressed() {
-      // loop = !loop;
     }
 
     function activation(t) {
@@ -79,9 +75,6 @@
 				let Nt = 75;
 				let step = height/Nt;
 				let turn = lerp(0,0.4,activation((this.id/NB+0*t)%1));
-        noFill();
-				stroke(255);
-				strokeWeight(1);
         push();
 				beginShape();
 				vertex(xx,yy);
@@ -97,6 +90,14 @@
         pop();
 			}
 		}
+
+    function parseData() {
+      $data = GLEON_DATA;
+      xmlDoc = $.parseXML( $data );
+      $xml = $( xmlDoc ),
+      $title = $xml.find( "title" );
+    }
+    console.log(GLEON_DATA);
 	</script>
 
 <?php get_footer(); ?>

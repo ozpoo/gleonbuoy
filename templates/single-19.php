@@ -16,9 +16,21 @@
 
 	<script>
 
+    let dom;
+
     function setup() {
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
+      init();
+    }
+
+    function init() {
+      dom = document.getElementById("canvas");
+      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
+      strokeWeight(1);
+      background(25, 25, 25, 1);
     }
 
     function draw() {
@@ -26,7 +38,8 @@
     }
 
     function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      init();
     }
 
 	</script>

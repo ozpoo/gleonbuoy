@@ -34,8 +34,11 @@
       position = 0;
       loop = true;
       frameRate(10);
-      background(230);
+      colorMode(RGB, 255, 255, 255, 1);
       noFill();
+      stroke(255);
+      strokeWeight(1);
+      background(25, 25, 25, 1);
       // Temperature, DO, DOS
       data.push([56.5, 9.28, 88.9]);  //0
       data.push([56.23, 9.06, 86.8]); //10
@@ -53,7 +56,6 @@
     }
 
     function draw() {
-      stroke("#2234C9");
       push();
       translate(200, 200);
       beginShape();
@@ -72,10 +74,6 @@
     function windowResized() {
       resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
-    }
-
-    function mousePressed() {
-      // loop = !loop;
     }
 
 	</script>

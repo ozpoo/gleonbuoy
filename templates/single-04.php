@@ -39,31 +39,30 @@
       limit = 200;
       timer = 0;
       smooth();
-      background(30);
+      background(25);
       for (var i = 0; i < newIris.length; i++) {
         newIris[i] = new Iris();
       }
     }
 
     function draw() {
-      if(loop) {
-        fill(30, overlayAlpha);
+      translate(width * 0.5, height * 0.5);
+      fill(30, overlayAlpha);
+      rect(-5, -5, width+10, height+10);
+
+      if ( (timer = (timer + .5)) > limit - 20) {
+        // this is for that quick fade at the end of a cycle
+        fill(30, overlayAlpha + 40);
         rect(-5, -5, width+10, height+10);
+      }
 
-        if ( (timer = (timer + .5)) > limit - 20) {
-          // this is for that quick fade at the end of a cycle
-          fill(30, overlayAlpha + 40);
-          rect(-5, -5, width+10, height+10);
-        }
+      // Animate Iris
+      for (var i = 0; i < newIris.length; i++) newIris[i].drawIris(c1);
 
-        // Animate Iris
-        for (var i = 0; i < newIris.length; i++) newIris[i].drawIris(c1);
-
-        // reset parameters every time 'limit' is hit
-        if ( (timer = (timer + .5) % limit) == 0 ) {
-          for (var i = 0; i < newIris.length; i++) {
-            newIris[i].reDrawIt();
-          }
+      // reset parameters every time 'limit' is hit
+      if ( (timer = (timer + .5) % limit) == 0 ) {
+        for (var i = 0; i < newIris.length; i++) {
+          newIris[i].reDrawIt();
         }
       }
     }
@@ -71,10 +70,6 @@
     function windowResized() {
       resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
-    }
-
-    function mousePressed() {
-      // loop = !loop;
     }
 
     function Iris() {

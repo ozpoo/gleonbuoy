@@ -26,9 +26,11 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
       noFill();
-      background(230);
-      stroke("#2234C9");
+      stroke(255);
+      smooth();
+      background(25, 25, 25, 1);
       sX = 1;
       sY = 1;
       x = 250;

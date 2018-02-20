@@ -26,16 +26,17 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
+      colorMode(RGB, 255, 255, 255, 1);
+      noFill();
+      stroke(255);
       smooth();
       theta = 0;
     }
 
     function draw() {
       theta+=.20;
-      background(230);
-      stroke("#2234C9");
+      background(25, 25, 25, 1);
       translate(width/2, height/2);
-      noFill();
       var r=250;
       for (var i=-0.5*PI;i<PI+0.5*PI;i+=0.01*PI) {
         beginShape();
@@ -50,11 +51,6 @@
       resizeCanvas(dom.offsetWidth, dom.offsetHeight);
       init();
     }
-
-    function mousePressed() {
-      // loop = !loop;
-    }
-
 	</script>
 
 <?php get_footer(); ?>
