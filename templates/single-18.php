@@ -16,50 +16,107 @@
 
 	<script>
 
-    var resolution, rad, x, y = 1;
-    var t, tChange, nVal, nInt, nAmp;
+  (function ($, root, undefined) {
 
-    function setup() {
-      canvas = createCanvas(window.innerWidth, window.innerHeight);
-      canvas.parent("canvas");
+    $(function () {
 
-      noiseDetail(8);
+      var container;
+      var camera, scene, renderer;
+      var raycaster;
+      var mouse;
+      var PI2 = Math.PI * 2;
+      var programFill = function ( context ) {
+        context.beginPath();
+        context.arc( 0, 0, 0.5, 0, PI2, true );
+        context.fill();
+      };
+      var programStroke = function ( context ) {
+        context.lineWidth = 0.025;
+        context.beginPath();
+        context.arc( 0, 0, 0.5, 0, PI2, true );
+        context.stroke();
+      };
+      var INTERSECTED;
 
-      resolution = 260; // how many points in the circle
-      rad = 150;
-      x = 1;
-      y = 1;
-      t = 0; // time passed
-      tChange = .02; // how quick time flies
-      nVal; // noise value
-      nInt = 1; // noise intensity
-      nAmp = 1; // noise amplitude
-      noFill();
-    }
+      $(window).load(function(){
+        init();
+        animate();
+      });
 
-    function draw() {
-      background(230);
+      function init() {
+        container = $("#canvas");
+        camera = new THREE.PerspectiveCamera( 70, $("#canvas").width() / $("#canvas").height(), 1, 10000 );
+        camera.position.set( 0, 300, 500 );
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color( 0xf0f0f0 );
+        for ( var i = 0; i < 100; i ++ ) {
+          var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: Math.random() * 0x808080 + 0x808080, program: programStroke } ) );
+          particle.position.x = Math.random() * 800 - 400;
+          particle.position.y = Math.random() * 800 - 400;
+          particle.position.z = Math.random() * 800 - 400;
+          particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
+          scene.add( particle );
+        }
 
-      stroke("#2234C9");
-      strokeWeight(1);
-      nInt = map(mouseX, 0, width, 0.1, 30); // map mouseX to noise intensity
-      nAmp = map(mouseY, 0, height, 0.0, 1.0); // map mouseY to noise amplitude
-
-      beginShape();
-      for(var a = 0; a <= TWO_PI; a += TWO_PI / resolution) {
-        nVal = map(noise( cos(a)*nInt+1, sin(a)*nInt+1, t ), 0.0, 1.0, nAmp, 1.0); // map noise value to match the amplitude
-        x = cos(a)*rad *nVal;
-        y = sin(a)*rad *nVal;
-        vertex(x, y);
+        //
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
+        renderer = new THREE.CanvasRenderer();
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize( $("#canvas").width(), $("#canvas").height() );
+        $(container).append( renderer.domElement );
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        //
+        window.addEventListener( 'resize', onWindowResize, false );
       }
-      endShape(CLOSE);
 
-      t += tChange;
-    }
+      function onWindowResize() {
+        camera.aspect = $("#canvas").width() / $("#canvas").height();
+        camera.updateProjectionMatrix();
+        renderer.setSize( $("#canvas").width(), $("#canvas").height() );
+      }
 
-    function windowResized() {
-      resizeCanvas(window.innerWidth, window.innerHeight);
-    }
+      function onDocumentMouseMove( event ) {
+        event.preventDefault();
+        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      }
+
+      //
+      function animate() {
+        requestAnimationFrame( animate );
+        render();
+      }
+
+      var radius = 600;
+      var theta = 0;
+      function render() {
+        // rotate camera
+        theta += 0.1;
+        camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
+        camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
+        camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+        camera.lookAt( scene.position );
+        camera.updateMatrixWorld();
+        // find intersections
+        raycaster.setFromCamera( mouse, camera );
+        var intersects = raycaster.intersectObjects( scene.children );
+        if ( intersects.length > 0 ) {
+          if ( INTERSECTED != intersects[ 0 ].object ) {
+            if ( INTERSECTED ) INTERSECTED.material.program = programStroke;
+            INTERSECTED = intersects[ 0 ].object;
+            INTERSECTED.material.program = programFill;
+          }
+        } else {
+          if ( INTERSECTED ) INTERSECTED.material.program = programStroke;
+          INTERSECTED = null;
+        }
+        renderer.render( scene, camera );
+      }
+
+    });
+
+  })(jQuery, this);
 
 	</script>
 

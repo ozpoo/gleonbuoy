@@ -16,141 +16,97 @@
 
 	<script>
 
-    let n, minRad, maxRad, nfAng, nfTime, dom;
-    let newIris, noiseScale, noiseStrength, overlayAlpha, irisAlpha;
-    let strokeWidth, radius, rTemp, limit, timer;
+  (function ($, root, undefined) {
 
-    function setup() {
-      init();
-    }
+    $(function () {
 
-    function init() {
-      dom = document.getElementById("canvas");
-      canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
-      canvas.parent("canvas");
-      newIris = new Array();
-      noiseScale = 500;
-      noiseStrength = 50;
-      overlayAlpha = 0;
-      irisAlpha = 255;
-      strokeWidth = .3;
-      radius = 100;
-      rTemp = radius;
-      limit = 200;
-      timer = 0;
-      smooth();
-      background(25);
-      for (var i = 0; i < newIris.length; i++) {
-        newIris[i] = new Iris();
-      }
-    }
+    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-    function draw() {
-      translate(width * 0.5, height * 0.5);
-      fill(30, overlayAlpha);
-      rect(-5, -5, width+10, height+10);
+			let container;
+			let camera, scene, renderer, particles, geometry, material, i, h, color, sprite, size;
+			let mouseX = 0, mouseY = 0;
+			let windowHalfX = $("#canvas").width() / 2;
+			let windowHalfY = $("#canvas").height() / 2;
 
-      if ( (timer = (timer + .5)) > limit - 20) {
-        // this is for that quick fade at the end of a cycle
-        fill(30, overlayAlpha + 40);
-        rect(-5, -5, width+10, height+10);
-      }
+      $(window).load(function(){
+        init();
+  			animate();
+      })
 
-      // Animate Iris
-      for (var i = 0; i < newIris.length; i++) newIris[i].drawIris(c1);
+			function init() {
+				container = $("#canvas");
+				camera = new THREE.PerspectiveCamera( 55, $("#canvas").width() / $("#canvas").height(), 2, 2000 );
+				camera.position.z = 1000;
+				scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2( 0x000000, 0.001 );
+				geometry = new THREE.Geometry();
+				sprite = new THREE.TextureLoader().load( "<?php echo get_template_directory_uri(); ?>/assets/js/_lib/three/examples/textures/sprites/disc.png" );
+				for (let i = 0; i < 10000; i ++ ) {
+					let vertex = new THREE.Vector3();
+					vertex.x = 2000 * Math.random() - 1000;
+					vertex.y = 2000 * Math.random() - 1000;
+					vertex.z = 2000 * Math.random() - 1000;
+					geometry.vertices.push( vertex );
+				}
+				material = new THREE.PointsMaterial( { size: 35, sizeAttenuation: false, map: sprite, alphaTest: 0.5, transparent: true } );
+				material.color.setHSL( 1.0, 0.3, 0.7 );
+				particles = new THREE.Points( geometry, material );
+				scene.add( particles );
+				//
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( $("#canvas").width(), $("#canvas").height() );
+				$(container).append( renderer.domElement );
+				//
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				//
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+			function onWindowResize() {
+				windowHalfX = $("#canvas").width() / 2;
+				windowHalfY = $("#canvas").height() / 2;
+				camera.aspect = $("#canvas").width() / $("#canvas").height();
+				camera.updateProjectionMatrix();
+				renderer.setSize( $("#canvas").width(), $("#canvas").height() );
+			}
+			function onDocumentMouseMove( event ) {
+				mouseX = event.clientX - windowHalfX;
+				mouseY = event.clientY - windowHalfY;
+			}
+			function onDocumentTouchStart( event ) {
+				if ( event.touches.length == 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			function onDocumentTouchMove( event ) {
+				if ( event.touches.length == 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			//
+			function animate() {
+				requestAnimationFrame( animate );
+				render();
+			}
+			function render() {
+				let time = Date.now() * 0.00005;
+				camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+				camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+				camera.lookAt( scene.position );
+				h = ( 360 * ( 1.0 + time ) % 360 ) / 360;
+				material.color.setHSL( h, 0.5, 0.5 );
+				renderer.render( scene, camera );
+			}
 
-      // reset parameters every time 'limit' is hit
-      if ( (timer = (timer + .5) % limit) == 0 ) {
-        for (var i = 0; i < newIris.length; i++) {
-          newIris[i].reDrawIt();
-        }
-      }
-    }
+    });
 
-    function windowResized() {
-      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
-      init();
-    }
-
-    function Iris() {
-      // x,y    = the current position
-      // ox,oy  = the position, but slightly back in time
-      // sx,sy  = start positions
-      var x, y, ox, oy, sx, sy;
-
-      var angle = 0, step;
-      var NDo;
-      var isOutside = false;
-      step = 5;
-      NDo = int(random(360));
-      sx = width/2  + radius * cos(NDo);
-      sy = height/2 + radius * sin(NDo);
-      x = sx;
-      y = sy;
-
-      this.drawIris = function(cF) {
-        // calculate angle which is based on noise
-        // and then use it for x and y positions
-        angle = noise(x / noiseScale, y / noiseScale) * noiseStrength;
-
-        // write in the last value of x,y into ox,oy >> old x, old y
-        // i need these values to display the line();
-        ox = x;
-        oy = y;
-
-        // radius change for every cycle
-        radius = rGen();
-
-        // calculate new x and y position
-        x += cos(angle) * step;
-        y += sin(angle) * step;
-
-        // what happens when x and y hit the outside
-        if (x < -2) isOutside = true;
-        else if (x > width + 2) isOutside = true;
-        else if (y < -2) isOutside = true;
-        else if (y > height + 2) isOutside = true;
-
-        if (isOutside) {
-          x = ox;
-          y = oy;
-        }
-
-        // display it
-        noFill();
-        stroke(cF, irisAlpha);
-        strokeWeight(strokeWidth);
-        line(ox, oy, x, y);
-
-        // return boolean to false for next cycle
-        isOutside = false;
-      }
-
-      this.reDrawIt = function() {
-        // background reset
-        fill(30);
-        rect(-5, -5, width+10, height+10);
-
-        // new noise
-        noiseScale = int(random(400, 700));
-        noiseStrength = int(random(25,75));
-        noiseDetail(int(random(1, 10)), 0.5);
-
-        // parameters reset
-        x = sx;
-        y = sy;
-        NDo = int(random(360));
-        sx = width/2  + radius * cos(NDo);
-        sy = height/2 + radius * sin(NDo);
-        ox = x;
-        oy = y;
-      }
-    }
-
-    this.rGen = function() {
-      var r = random(0.65, 1.5) * rTemp;
-      return r;
-    }
+  })(jQuery, this);
 
 	</script>
 

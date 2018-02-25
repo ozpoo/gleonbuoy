@@ -294,6 +294,26 @@ function conditional_scripts() {
         get_template_directory_uri() . '/assets/js/_lib/three/examples/js/effects/AnaglyphEffect.js',
         array('jquery'), '1.0.0');
       wp_enqueue_script('AnaglyphEffect');
+
+      wp_register_script('NURBSCurve',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/curves/NURBSCurve.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('NURBSCurve');
+
+      wp_register_script('NURBSUtils',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/curves/NURBSUtils.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('NURBSUtils');
+
+      wp_register_script('Projector',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/renderers/Projector.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('Projector');
+
+      wp_register_script('CanvasRenderer',
+        get_template_directory_uri() . '/assets/js/_lib/three/examples/js/renderers/CanvasRenderer.js',
+        array('jquery'), '1.0.0');
+      wp_enqueue_script('CanvasRenderer');
 		}
 
     $url = get_template_directory_uri() . "/assets/data/GLEON_XML/split_files/GLEON-2-1.xml";

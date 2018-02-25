@@ -16,71 +16,115 @@
 
 	<script>
 
-  var circles, num, min, max, c;
+  (function ($, root, undefined) {
 
-    function setup() {
-      canvas = createCanvas(canvasWidth, canvasHeight);
-      canvas.parent("canvas");
-      background(255);
-      noStroke();
-      circles = new Array();
-      num = 250;
-      min = 2;
-      max = 100;
-      c = new Circle(createVector(0, 0), random(min, max));
-      circles.push(c);
-    }
+    $(function () {
 
-    function draw() {
-      background(255);
-      for(var i = 0; i < circles.length; i++){
-        var c = circles[i];
-        c.draw();
-      }
-      var newLoc = createVector(random(width/2-num, width/2+num), random(height/2-num, height/2+num));
-      var newD = random(min, max);
-      while(detectAnyCollision(circles, newLoc, newD)) {
-        /* If the values do interect make new values. */
-        newLoc = createVector(random(width/2-num, width/2+num), random(height/2-num, height/2+num));
-        newD = random(min, max);
-      }
-      c = new Circle(newLoc, newD);
-      if(circles.length < 10000){
-        circles.push(c);
-      }
-    }
+      if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+  			let container;
+  			let camera, scene, renderer, particles, geometry, materials = [], parameters, i, h, color, size;
+  			let mouseX = 0, mouseY = 0;
+  			let windowHalfX = $("#canvas").width() / 2;
+  			let windowHalfY = $("#canvas").height() / 2;
 
-    function detectAnyCollision(circles, newLoc, newR) {
-      for(var i = 0; i < circles.length; i++) {
-        if (circles[i].detectCollision(newLoc, newR)) {
-          return true;
-        }
-      }
-      return false;
-    }
+        $(window).load(function(){
+          init();
+    			animate();
+        });
 
-    function Circle(loc, d) {
-      this.loc = loc;
-      this.d = d;
+  			function init() {
+  				container = $("#canvas");
+  				camera = new THREE.PerspectiveCamera( 75, $("#canvas").width() / $("#canvas").height(), 1, 3000 );
+  				camera.position.z = 1000;
+  				scene = new THREE.Scene();
+  				scene.fog = new THREE.FogExp2( 0x000000, 0.0007 );
+  				geometry = new THREE.Geometry();
+  				for ( i = 0; i < 20000; i ++ ) {
+  					let vertex = new THREE.Vector3();
+  					vertex.x = Math.random() * 2000 - 1000;
+  					vertex.y = Math.random() * 2000 - 1000;
+  					vertex.z = Math.random() * 2000 - 1000;
+  					geometry.vertices.push( vertex );
+  				}
+  				parameters = [
+  					[ [1, 1, 0.5], 5 ],
+  					[ [0.95, 1, 0.5], 4 ],
+  					[ [0.90, 1, 0.5], 3 ],
+  					[ [0.85, 1, 0.5], 2 ],
+  					[ [0.80, 1, 0.5], 1 ]
+  				];
+  				for ( i = 0; i < parameters.length; i ++ ) {
+  					color = parameters[i][0];
+  					size  = parameters[i][1];
+  					materials[i] = new THREE.PointsMaterial( { size: size } );
+  					particles = new THREE.Points( geometry, materials[i] );
+  					particles.rotation.x = Math.random() * 6;
+  					particles.rotation.y = Math.random() * 6;
+  					particles.rotation.z = Math.random() * 6;
+  					scene.add( particles );
+  				}
+  				renderer = new THREE.WebGLRenderer();
+  				renderer.setPixelRatio( window.devicePixelRatio );
+  				renderer.setSize( $("#canvas").width(), $("#canvas").height() );
+  				$(container).append( renderer.domElement );
+  				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+  				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+  				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+  				//
+  				window.addEventListener( 'resize', onWindowResize, false );
+  			}
+  			function onWindowResize() {
+  				windowHalfX = $("#canvas").width() / 2;
+  				windowHalfY = $("#canvas").height() / 2;
+  				camera.aspect = $("#canvas").width() / $("#canvas").height();
+  				camera.updateProjectionMatrix();
+  				renderer.setSize( $("#canvas").width(), $("#canvas").height() );
+  			}
+  			function onDocumentMouseMove( event ) {
+  				mouseX = event.clientX - windowHalfX;
+  				mouseY = event.clientY - windowHalfY;
+  			}
+  			function onDocumentTouchStart( event ) {
+  				if ( event.touches.length === 1 ) {
+  					event.preventDefault();
+  					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+  					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+  				}
+  			}
+  			function onDocumentTouchMove( event ) {
+  				if ( event.touches.length === 1 ) {
+  					event.preventDefault();
+  					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+  					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+  				}
+  			}
+  			//
+  			function animate() {
+  				requestAnimationFrame( animate );
+  				render();
+  			}
+  			function render() {
+  				let time = Date.now() * 0.00005;
+  				camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+  				camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+  				camera.lookAt( scene.position );
+  				for ( i = 0; i < scene.children.length; i ++ ) {
+  					let object = scene.children[ i ];
+  					if ( object instanceof THREE.Points ) {
+  						object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+  					}
+  				}
+  				for ( i = 0; i < materials.length; i ++ ) {
+  					color = parameters[i][0];
+  					h = ( 360 * ( color[0] + time ) % 360 ) / 360;
+  					materials[i].color.setHSL( h, color[1], color[2] );
+  				}
+  				renderer.render( scene, camera );
+  			}
 
-      this.draw = function() {
-        var r = dist(loc.x, loc.y, width/2, height/2);
-        var c = abs(cos(radians(r+frameCount)));
-        var s = abs(sin(radians(r+frameCount)));
-        fill((c-s)*255, c*255, s*255);
-        if (r < num) {
-          ellipse(loc.x, loc.y, d, d);
-        }
-      }
+      });
 
-      this.detectCollision = function(newLoc, newD) {
-        /*
-         We must divide d + newD because they are both diameters. We want to find what both radius's values are added on.
-         However without it gives the balls a cool forcefeild type gap.
-         */
-        return dist(loc.x, loc.y, newLoc.x, newLoc.y) < ((d + newD)/2);
-      }
-    }
+    })(jQuery, this);
 
 	</script>
 

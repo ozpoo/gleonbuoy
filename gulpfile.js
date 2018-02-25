@@ -8,6 +8,7 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cssdeclsort = require('css-declaration-sorter');
 const concat = require("gulp-concat");
+const stylish = require('jshint-stylish');
 
 var watchJS = true;
 var watchSCSS = true;
@@ -15,9 +16,9 @@ var watchSCSS = true;
 gulp.task('js', function () {
 	if(watchJS) {
 		watchJS = false;
-		gulp.src('assets/js/src/script.js')
+		gulp.src('assets/js/src/*')
 		.pipe(jshint())
-		.pipe(jshint.reporter('fail'))
+		.pipe(jshint.reporter(stylish))
 		.pipe(concat('build.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('assets/js/build'));
@@ -28,7 +29,7 @@ gulp.task('js', function () {
 gulp.task('scss', function () {
 	if(watchSCSS) {
 		watchSCSS = false;
-	  gulp.src('assets/css/src/style.scss')
+	  gulp.src('assets/css/src/*')
 		.pipe(sassLint())
 	  .pipe(sassLint.format())
 	  .pipe(sassLint.failOnError())
@@ -44,6 +45,6 @@ gulp.task('scss', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['assets/css/src/style.scss'], ['scss']);
-	gulp.watch(['assets/js/src/script.js'], ['js']);
+  gulp.watch(['assets/css/src/*'], ['scss']);
+	gulp.watch(['assets/js/src/*'], ['js']);
 });
