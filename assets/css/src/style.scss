@@ -121,6 +121,7 @@ body {
   opacity: 0;
   transition: opacity 1220ms cubic-bezier(.165, .84, .44, 1);
   will-change: opacity;
+  overflow: hidden;
 
   &.show {
     opacity: 1;
@@ -268,14 +269,15 @@ header {
   .menu-modal {
     position: absolute;
     top: 50vh;
-    left: 50vw;
-    width: 60vw;
-    height: 60vh;
+    right: 0vw;
+    width: 420px;
+    height: 100vh;
     padding: 12vh 0;
     overflow: scroll;
-    transform: translate3d(-50%, -50%, 0) scale(.5);
+    transform: translate3d(100%, -50%, 0) scale(.5);
     backface-visibility: hidden;
-    background: rgba(0,0,255,1);
+    background: $black;
+    font-size: .8em;
     z-index: 100;
     // background: rgba(206, 0, 88, 1);
     opacity: 0;
@@ -284,7 +286,7 @@ header {
     will-change: opacity, transform;
 
     &.show {
-      transform: translate3d(-50%, -50%, 0) scale(1);
+      transform: translate3d(0%, -50%, 0) scale(1);
       opacity: 1;
       pointer-events: all;
     }
@@ -396,7 +398,7 @@ header {
   font-size: 6.8vw;
   letter-spacing: .06em;
   text-transform: uppercase;
-  transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
+  // transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
   will-change: transform;
   z-index: 2;
   transform: translate3d(0, 100vh, 0);

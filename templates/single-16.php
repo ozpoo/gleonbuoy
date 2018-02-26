@@ -114,7 +114,7 @@
         var time = Date.now() * 0.01;
         sphere.rotation.y = sphere.rotation.z = 0.01 * time;
         uniforms.amplitude.value = 2.5 * Math.sin( sphere.rotation.y * 0.125 );
-        uniforms.color.value.offsetHSL( 0.0005, 0, 0 );
+        uniforms.color.value.offsetHSL( 0.001, 0, 0 );
         for ( var i = 0; i < displacement.length; i ++ ) {
           displacement[ i ] = Math.sin( 0.1 * i + time );
           noise[ i ] += 0.5 * ( 0.5 - Math.random() );

@@ -34,7 +34,7 @@
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
       colorMode(RGB, 255, 255, 255, 1);
-      stroke(20, 20, 20, 1);
+      stroke(255, 255, 255, 1);
       strokeWeight(1);
       smooth();
       noFill();
@@ -158,7 +158,7 @@
     }
 
     function addGradient() {
-      background.spin(Math.floor(Math.random() * 360) + 1);
+      background.spin(Math.floor(Math.random() * 360) + 1).lighten(10);
       let g1 = tinycolor(background.toString());
       let g2 = tinycolor(background.toString());
       g2.spin(30);

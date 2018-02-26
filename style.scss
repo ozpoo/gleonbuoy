@@ -109,6 +109,7 @@ html {
 }
 
 body {
+  overflow: hidden;
   backface-visibility: hidden;
   background: $black;
   color: $white;
@@ -269,14 +270,15 @@ header {
     // background: rgba(206, 0, 88, 1);
     position: absolute;
     top: 50vh;
-    left: 50vw;
-    width: 60vw;
-    height: 60vh;
+    right: 0vw;
+    width: 420px;
+    height: 100vh;
     padding: 12vh 0;
     overflow: scroll;
-    transform: translate3d(-50%, -50%, 0) scale(.5);
+    transform: translate3d(100%, -50%, 0) scale(.5);
     backface-visibility: hidden;
-    background: rgba(0,0,255,1);
+    background: $black;
+    font-size: .8em;
     opacity: 0;
     pointer-events: none;
     transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 880ms cubic-bezier(.165, .84, .44, 1);
@@ -284,7 +286,7 @@ header {
     z-index: 100;
 
     &.show {
-      transform: translate3d(-50%, -50%, 0) scale(1);
+      transform: translate3d(0%, -50%, 0) scale(1);
       opacity: 1;
       pointer-events: all;
     }
@@ -385,6 +387,7 @@ header {
 }
 
 .text-container {
+  // transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
   position: fixed;
   top: 0;
   left: 0;
@@ -398,7 +401,6 @@ header {
   letter-spacing: .06em;
   text-transform: uppercase;
   opacity: 0;
-  transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
   will-change: transform;
   z-index: 2;
 

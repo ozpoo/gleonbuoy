@@ -3,18 +3,11 @@
 	<main role="main">
 		<section class="text-container">
 			<div class="text">
-				<h1>GLEON Buoy &mdash; Understand, Predict, and Communicate the Role and Response of Lakes in a Changing Global Environment</h1>
+				<h1>GLEON &mdash; Understand, Predict, and Communicate the Role and Response of Lakes in a Changing Global Environment</h1>
 			</div>
 		</section>
 
 		<section class="three"></section>
-
-		<section class="grid">
-			<!-- <section>
-				<?php get_template_part('loop'); ?>
-				<?php get_template_part('pagination'); ?>
-			</section> -->
-		</section>
 
 	</main>
 
@@ -27,8 +20,6 @@
 				var lastTime = (new Date()).getTime();
 				var renderer, camera, scene, controls, ocean;
 				var lastX, lastY, offsetLeft, offsetTop, loaded;
-
-				// console.log(GLEON_DATA);
 
 				$(window).load(function(){
 					init();
