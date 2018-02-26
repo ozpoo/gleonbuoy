@@ -17,6 +17,7 @@
 	<script>
     let background, v, w, position, loop;
     let sx, sy, sz, nx, ny, nz, time, dt, ct, dom;
+    let gradient;
 
     function setup() {
       init();
@@ -25,7 +26,14 @@
     function init() {
       dom = document.getElementById("canvas");
       background = tinycolor("rgba (255, 0, 0, 1)");
-      dom.style.backgroundColor = background.toString();
+      let g1 = tinycolor(background.toString());
+      let g2 = tinycolor(background.toString());
+      g2.spin(20);
+      gradient = getCssValuePrefix() + "radial-gradient(circle at top, "+g1.toString()+", "+g2.toString()+")";
+      console.log(g1);
+      console.log(g2);
+      console.log(gradient);
+      dom.style.background = gradient;
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
       colorMode(RGB, 255, 255, 255, 1);
@@ -93,7 +101,14 @@
       nz = Math.floor(map(data[position][2], 83.1, 88.9, 0, 400));
       position++;
       background.spin(Math.floor(Math.random() * 360) + 1);
-      dom.style.backgroundColor = background.toString();
+      let g1 = tinycolor(background.toString());
+      let g2 = tinycolor(background.toString());
+      g2.spin(20);
+      gradient = getCssValuePrefix() + "radial-gradient(circle at top, "+g1.toString()+", "+g2.toString()+")";
+      console.log(g1);
+      console.log(g2);
+      console.log(gradient);
+      dom.style.backgroundImage = gradient;
     }
 
     function incrementCoordinates() {
@@ -132,6 +147,31 @@
       }
       endShape();
       pop();
+    }
+
+    function getCssValuePrefix() {
+        var rtrnVal = '';//default to standard syntax
+        var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
+
+        // Create a temporary DOM object for testing
+        var dom = document.createElement('div');
+
+        for (var i = 0; i < prefixes.length; i++)
+        {
+            // Attempt to set the style
+            dom.style.background = prefixes[i] + 'linear-gradient(#000000, #ffffff)';
+
+            // Detect if the style was successfully set
+            if (dom.style.background)
+            {
+                rtrnVal = prefixes[i];
+            }
+        }
+
+        dom = null;
+        delete dom;
+
+        return rtrnVal;
     }
 
 	</script>

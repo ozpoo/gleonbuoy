@@ -53,6 +53,7 @@
       var renderer, scene, camera;
       var sphere, uniforms;
       var displacement, noise, container;
+      let tempLower, tempUpper, doLower, doUpper, dosLower, dosUpper, position;
 
       $(window).load(function(){
         init();
@@ -64,7 +65,7 @@
         camera = new THREE.PerspectiveCamera( 30, $("#canvas").width() / $("#canvas").height(), 1, 10000 );
         camera.position.z = 300;
         scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0x050505 );
+        scene.background = new THREE.Color( 'rgba(25,25,25,1)' );
         uniforms = {
           amplitude: { value: 1.0 },
           color:     { value: new THREE.Color( 0xff2200 ) },
@@ -95,6 +96,7 @@
         $(container).append( renderer.domElement );
         //
         window.addEventListener( 'resize', onWindowResize, false );
+        setBounds();
       }
 
       function onWindowResize() {
@@ -121,6 +123,43 @@
         }
         sphere.geometry.attributes.displacement.needsUpdate = true;
         renderer.render( scene, camera );
+      }
+
+      function setBounds() {
+        position = 0;
+        tempLower = doLower = dosLower = 1000000000;
+        tempUpper = doUpper = dosUpper = -1000000000;
+        let dat = GLEON_DATA['post'][position];
+        while(dat) {
+          if(tempLower > dat['SurfaceTemperature'] && dat['SurfaceTemperature'].length != 0) {
+            tempLower = dat['SurfaceTemperature'];
+            console.log(dat['SurfaceTemperature']);
+          }
+          if(tempUpper < dat['SurfaceTemperature'] && dat['SurfaceTemperature'].length != 0) {
+            tempUpper = dat['SurfaceTemperature'];
+          }
+          if(doLower > dat['DOatSurface'] && dat['DOatSurface'].length != 0) {
+            doLower = dat['DOatSurface'];
+          }
+          if(doUpper < dat['DOatSurface'] && dat['DOatSurface'].length != 0) {
+            doUpper = dat['DOatSurface'];
+          }
+          if(dosLower > dat['DOSatSurface'] && dat['DOSatSurface'].length != 0) {
+            dosLower = dat['DOSatSurface'];
+          }
+          if(dosUpper < dat['DOSatSurface'] && dat['DOSatSurface'].length != 0) {
+            dosUpper = dat['DOSatSurface'];
+          }
+          position++;
+          dat = GLEON_DATA['post'][position];
+        }
+        position = 0;
+        // console.log(tempLower);
+        // console.log(tempUpper);
+        // console.log(doLower);
+        // console.log(doUpper);
+        // console.log(dosLower);
+        // console.log(dosUpper);
       }
 
     });

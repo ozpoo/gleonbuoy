@@ -17,6 +17,7 @@
 	<script>
     let xOffset, yOffset, offsetInc;
     let inc, s, m, dom;
+    let tempLower, tempUpper, doLower, doUpper, dosLower, dosUpper, position;
 
     function setup() {
       init();
@@ -37,6 +38,7 @@
       inc = 1;
       s = 1;
       m = 1.005;
+      setBounds();
     }
 
     function draw() {
@@ -59,6 +61,43 @@
           s *= m;
         }
       }
+    }
+
+    function setBounds() {
+      position = 0;
+      tempLower = doLower = dosLower = 1000000000;
+      tempUpper = doUpper = dosUpper = -1000000000;
+      let dat = GLEON_DATA['post'][position];
+      while(dat) {
+        if(tempLower > dat['SurfaceTemperature'] && dat['SurfaceTemperature'].length != 0) {
+          tempLower = dat['SurfaceTemperature'];
+          console.log(dat['SurfaceTemperature']);
+        }
+        if(tempUpper < dat['SurfaceTemperature'] && dat['SurfaceTemperature'].length != 0) {
+          tempUpper = dat['SurfaceTemperature'];
+        }
+        if(doLower > dat['DOatSurface'] && dat['DOatSurface'].length != 0) {
+          doLower = dat['DOatSurface'];
+        }
+        if(doUpper < dat['DOatSurface'] && dat['DOatSurface'].length != 0) {
+          doUpper = dat['DOatSurface'];
+        }
+        if(dosLower > dat['DOSatSurface'] && dat['DOSatSurface'].length != 0) {
+          dosLower = dat['DOSatSurface'];
+        }
+        if(dosUpper < dat['DOSatSurface'] && dat['DOSatSurface'].length != 0) {
+          dosUpper = dat['DOSatSurface'];
+        }
+        position++;
+        dat = GLEON_DATA['post'][position];
+      }
+      position = 0;
+      // console.log(tempLower);
+      // console.log(tempUpper);
+      // console.log(doLower);
+      // console.log(doUpper);
+      // console.log(dosLower);
+      // console.log(dosUpper);
     }
 
     function windowResized() {

@@ -38,10 +38,11 @@
 				<?php
 				$wpb_all_query = new WP_Query(array('post_type'=>'post', 'post_status'=>'publish', 'posts_per_page'=>-1, 'order'=>'DESC')); ?>
 				<?php if ( $wpb_all_query->have_posts() ) : ?>
+				<?php remove_filter( 'the_content', 'wpautop' ); ?>
 				<ul>
 					<?php while ( $wpb_all_query->have_posts() ) : $wpb_all_query->the_post(); ?>
 						<li>
-							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><br>
+							<a href="<?php the_permalink(); ?>"><?php the_title(); ?> &mdash; <?php the_content(); ?></a><br>
 						</li>
 					<?php endwhile; ?>
 				</ul>

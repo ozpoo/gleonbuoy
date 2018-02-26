@@ -33,6 +33,11 @@ function header_scripts() {
       array(), '1.0.0');
     wp_enqueue_script('tinycolor');
 
+    // wp_register_script('tinygradient',
+    //   get_template_directory_uri() . '/assets/js/_lib/tinygradient/tinygradient.js',
+    //   array(), '1.0.0');
+    // wp_enqueue_script('tinygradient');
+
     wp_register_script('fontawesome',
       get_template_directory_uri() . '/assets/font/Font Awesome/svg-with-js/js/fontawesome-all.min.js',
       array('jquery'), '1.0.0');
@@ -318,8 +323,9 @@ function conditional_scripts() {
 
     $url = get_template_directory_uri() . "/assets/data/GLEON_XML/split_files/GLEON-2-1.xml";
     $xml = simplexml_load_file($url);
-    $xml = json_encode($xml, JSON_PRETTY_PRINT);
-    wp_localize_script( 'script', 'GLEON_DATA', $xml );
+    $json = json_encode($xml);
+    $array = json_decode($json,TRUE);
+    wp_localize_script( 'script', 'GLEON_DATA', $array );
   }
 }
 
