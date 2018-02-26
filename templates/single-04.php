@@ -39,6 +39,7 @@
 				camera.position.z = 1000;
 				scene = new THREE.Scene();
 				scene.fog = new THREE.FogExp2( 0x000000, 0.001 );
+        scene.background = new THREE.Color( 'rgba(25,25,25,1)' );
 				geometry = new THREE.Geometry();
 				sprite = new THREE.TextureLoader().load( "<?php echo get_template_directory_uri(); ?>/assets/js/_lib/three/examples/textures/sprites/disc.png" );
 				for (let i = 0; i < 10000; i ++ ) {
@@ -89,11 +90,12 @@
 					mouseY = event.touches[ 0 ].pageY - windowHalfY;
 				}
 			}
-			//
+
 			function animate() {
 				requestAnimationFrame( animate );
 				render();
 			}
+
 			function render() {
 				let time = Date.now() * 0.00005;
 				camera.position.x += ( mouseX - camera.position.x ) * 0.05;

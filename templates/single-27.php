@@ -258,6 +258,7 @@
 
 
         controls = new THREE.OrbitControls( camera );
+        controls.autoRotate = true;
         controls.damping = 0.2;
         controls.addEventListener( 'change', render );
 

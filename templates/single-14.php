@@ -16,12 +16,9 @@
 
 	<script>
 
-    let data, time, dr, dt, dtheta, black, loop;
-    let rCurrent, rTween, delta, radius, driftScale, driftScaleTween, driftDelta;
-
-    function preload() {
-
-    }
+    let xstep, ystep, y, frame_count, dx, dy, MARGIN;
+    let nx, ny, nz, body, dom, data, position, wind;
+    let sWeight;
 
     function setup() {
       init();
@@ -31,22 +28,22 @@
       dom = document.getElementById("canvas");
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
-      noStroke();
       colorMode(RGB, 255, 255, 255, 1);
-      black = color(250, 250, 250, 1);
-      data = new Array();
-      time = 0;
-      dr = 0.5;
-      dt = 0.005;
-      dtheta = 1;
+      noFill();
+      stroke(255);
+      strokeWeight(1);
+      smooth();
+      wind = createVector(0, 0);
+			rootn = createVector(random(123456), random(123456));
+      xstep = 20;
+      ystep = 40;
+      frame_count = 0;
       position = 0;
-      rCurrent = rTween = 0;
-      delta = .5;
-      radius = 60;
-      driftScale = 6;
-      driftScaleTween = 6;
-      driftDelta = .02;
-      loop = true;
+      y = 0;
+      nx = random(100);
+      ny = random(100);
+      nz = random(1000);
+      data = [];
 
       // Temperature, DO, DOS
       data.push([56.5, 9.28, 88.9]);  //0
@@ -62,62 +59,46 @@
       data.push([56.15, 8.73, 85.6]); //69
       data.push([56.21, 9.02, 86.5]); //75
       data.push([55.85, 8.73, 86.5]); //82
+
+      incrementData();
     }
 
-    function draw(){
+    function draw() {
       background(25, 25, 25, 1);
-      if(rCurrent == rTween) {
+      if (abs(dx) < .3) dx = 0;
+      if (abs(dy) < .3) dy = 0;
+      wind.sub(createVector(dx, dy));
+      rootn.add(createVector(.019*dx, .02*dy))
+      push();
+        for (let j = -MARGIN; j < height+MARGIN; j += ystep){
+          beginShape(); //QUAD LINES
+          for (let i = 0; i < (width+xstep); i += xstep) {
+            let n = noise(rootn.x + .019*i, rootn.y + .02*j)///ystep);
+            let tmpy = MARGIN * (n - 1) + j;
+            vertex(i, height - tmpy);
+          }
+          endShape();
+        }
+      pop();
+
+      if(frame_count++ % 100 == 0) {
         incrementData();
       }
-      incrementColor();
-      drawShape(rCurrent, 0, 255, 0.02);
-    }
-
-    function drawShape(r, g, b, a) {
-      time += dt;
-      fill(r, g, b, a);
-      push();
-      translate(width/2, height/2);
-      for(var r = 1; r < radius; r += dr){
-        beginShape();
-        for(var theta = 0; theta < 360; theta += dtheta){
-          var drift = noise(r/radius * cos(radians(theta))+4, r/radius * sin(radians(theta))+4, time) * r * driftScale;
-          vertex((r+drift) * cos(radians(theta)), (r+drift) * sin(radians(theta)));
-        }
-        endShape();
-      }
-      pop();
     }
 
     function windowResized() {
-      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      resizeCanvas(dom.innerWidth, dom.innerHeight);
       init();
     }
 
     function incrementData() {
-      if(data[position]) {
-        rTween = Math.floor(map(data[position][0], 55.85, 56.5, 0, 160));
-        position++;
-      } else {
+      if(!data[position]) {
         position = 0;
       }
-      driftScaleTween = Math.floor(Math.floor(Math.random() * 8) + 1);
-      console.log(driftScaleTween);
-    }
-
-    function incrementColor() {
-      if(rCurrent < rTween) {
-        rCurrent += delta;
-      } else {
-        rCurrent -= delta;
-      }
-      if(driftScale != driftScaleTween) {
-        if(driftScale < driftScaleTween) {
-          driftScale += driftDelta;
-        } else {
-          driftScale -= driftDelta;
-        }
-      }
+      dx = Math.floor(map(data[position][0], 55.85, 56.5, -10, 10));
+      dy = Math.floor(map(data[position][1], 8.67, 9.28, -10, 10));
+      MARGIN = Math.floor(map(data[position][2], 83.1, 88.9, 10, 100));
+      position++;
     }
 
 	</script>

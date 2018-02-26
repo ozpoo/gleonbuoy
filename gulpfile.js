@@ -8,7 +8,6 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cssdeclsort = require('css-declaration-sorter');
 const concat = require("gulp-concat");
-const stylish = require('jshint-stylish');
 
 var watchJS = true;
 var watchSCSS = true;

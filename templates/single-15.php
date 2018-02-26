@@ -19,7 +19,7 @@
     // console.log(GLEON_DATA['post'][0]);
 
     let data, position, dom, loop;
-    let tempLower, tempUpper, doLower, doUpper, dosLower, dosUpper, position;
+    let tempLower, tempUpper, doLower, doUpper, dosLower, dosUpper;
 
     function preload() {
 

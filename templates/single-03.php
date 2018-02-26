@@ -10,14 +10,17 @@
 
     <section class="visualization">
       <div id="canvas"></div>
+      <div id="gradient-container">
+        <div></div>
+      </div>
     </section>
 
 	</main>
 
 	<script>
-    let background, v, w, position, loop;
-    let sx, sy, sz, nx, ny, nz, time, dt, ct, dom;
-    let gradient;
+    let background, v, w, position;
+    let sx, sy, sz, nx, ny, nz, time, dt, ct;
+    let dom, grad;
 
     function setup() {
       init();
@@ -25,15 +28,9 @@
 
     function init() {
       dom = document.getElementById("canvas");
+      grad = document.getElementById("gradient-container");
       background = tinycolor("rgba (255, 0, 0, 1)");
-      let g1 = tinycolor(background.toString());
-      let g2 = tinycolor(background.toString());
-      g2.spin(20);
-      gradient = getCssValuePrefix() + "radial-gradient(circle at top, "+g1.toString()+", "+g2.toString()+")";
-      console.log(g1);
-      console.log(g2);
-      console.log(gradient);
-      dom.style.background = gradient;
+      addGradient();
       canvas = createCanvas(dom.offsetWidth, dom.offsetHeight);
       canvas.parent("canvas");
       colorMode(RGB, 255, 255, 255, 1);
@@ -49,7 +46,6 @@
       ct = .5;
       data = new Array();
       position = 0;
-      loop = true;
 
       // Temperature, DO, DOS
       data.push([56.5, 9.28, 88.9]);  //0
@@ -65,31 +61,27 @@
       data.push([56.15, 8.73, 85.6]); //69
       data.push([56.21, 9.02, 86.5]); //75
       data.push([55.85, 8.73, 86.5]); //82
+
+      setSize();
     }
 
     function draw() {
-      if(loop) {
-        clear();
-        if(sx == nx && sy == ny && sz == nz) {
-          incrementData();
-          incrementCoordinates();
-        } else {
-          incrementCoordinates();
-        }
-        drawWave();
-        v -= 0.02;
-        w += 0.04;
-        time += dt;
+      clear();
+      if(sx == nx && sy == ny && sz == nz) {
+        incrementData();
+        incrementCoordinates();
+      } else {
+        incrementCoordinates();
       }
+      drawWave();
+      v -= 0.02;
+      w += 0.04;
+      time += dt;
     }
 
     function windowResized() {
-      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      setSize();
       init();
-    }
-
-    function mousePressed() {
-      // loop = !loop;
     }
 
     function incrementData() {
@@ -100,15 +92,13 @@
       ny = Math.floor(map(data[position][1], 8.67, 9.28, 0, 200));
       nz = Math.floor(map(data[position][2], 83.1, 88.9, 0, 400));
       position++;
-      background.spin(Math.floor(Math.random() * 360) + 1);
-      let g1 = tinycolor(background.toString());
-      let g2 = tinycolor(background.toString());
-      g2.spin(20);
-      gradient = getCssValuePrefix() + "radial-gradient(circle at top, "+g1.toString()+", "+g2.toString()+")";
-      console.log(g1);
-      console.log(g2);
-      console.log(gradient);
-      dom.style.backgroundImage = gradient;
+      addGradient();
+    }
+
+    function setSize() {
+      resizeCanvas(dom.offsetWidth, dom.offsetHeight);
+      grad.style.height = dom.offsetHeight + "px";
+      grad.style.width = dom.offsetWidth + "px";
     }
 
     function incrementCoordinates() {
@@ -150,28 +140,39 @@
     }
 
     function getCssValuePrefix() {
-        var rtrnVal = '';//default to standard syntax
-        var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
-
-        // Create a temporary DOM object for testing
-        var dom = document.createElement('div');
-
-        for (var i = 0; i < prefixes.length; i++)
-        {
-            // Attempt to set the style
-            dom.style.background = prefixes[i] + 'linear-gradient(#000000, #ffffff)';
-
-            // Detect if the style was successfully set
-            if (dom.style.background)
-            {
-                rtrnVal = prefixes[i];
-            }
+      var rtrnVal = '';//default to standard syntax
+      var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
+      // Create a temporary DOM object for testing
+      var dom = document.createElement('div');
+      for (var i = 0; i < prefixes.length; i++) {
+        // Attempt to set the style
+        dom.style.background = prefixes[i] + 'linear-gradient(#000000, #ffffff)';
+        // Detect if the style was successfully set
+        if (dom.style.background) {
+          rtrnVal = prefixes[i];
         }
+      }
+      dom = null;
+      delete dom;
+      return rtrnVal;
+    }
 
-        dom = null;
-        delete dom;
-
-        return rtrnVal;
+    function addGradient() {
+      background.spin(Math.floor(Math.random() * 360) + 1);
+      let g1 = tinycolor(background.toString());
+      let g2 = tinycolor(background.toString());
+      g2.spin(30);
+      let gradient = getCssValuePrefix() + "linear-gradient("+g1.toString()+", "+g2.toString()+")";
+      let newGrad = document.createElement("div");
+      grad.appendChild(newGrad);
+      newGrad.style.background = gradient;
+      newGrad.classList.add("gradient");
+      setTimeout(function(el){
+        el.classList.add("show");
+        setTimeout(function(){
+          grad.removeChild(grad.children[0]);
+        }, 1220);
+      }, 20, newGrad);
     }
 
 	</script>
