@@ -99,11 +99,13 @@
 					requestAnimationFrame( animate );
 					update();
 					if(loaded) {
+						console.log(lastX);
 						var x = lastX - ($(window).width()/2);
 						var y = lastY - ($(window).height()/2);
 						x = -x*.05;
-						y = -y*1.25;
-						$(".text-container").css("transform", "translate3d(" + x + "px, " + y + "px, 0)");
+						y = -y*1.2;
+						$(".text").css("margin-left",  x + "px");
+						$(".text").css("margin-top",  y + "px");
 					}
 				}
 

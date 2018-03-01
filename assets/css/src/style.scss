@@ -388,8 +388,8 @@ header {
 
 .text-container {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50vh;
+  left: 50vw;
   width: 100vw;
   height: 100vh;
   backface-visibility: hidden;;
@@ -398,14 +398,21 @@ header {
   font-size: 6.8vw;
   letter-spacing: .06em;
   text-transform: uppercase;
-  // transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
+  transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
   will-change: transform;
   z-index: 2;
-  transform: translate3d(0, 100vh, 0);
+  transform: translate3d(-50%, -50%, 0) translateY(100%);
   opacity: 0;
 
+  .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
   &.show {
-    transform: translate3d(0, 50vh, 0);
+    transform: translate3d(-50%, -50%, 0);
     opacity: 1;
   }
 }

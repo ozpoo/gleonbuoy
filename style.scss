@@ -387,13 +387,12 @@ header {
 }
 
 .text-container {
-  // transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50vh;
+  left: 50vw;
   width: 100vw;
   height: 100vh;
-  transform: translate3d(0, 100vh, 0);
+  transform: translate3d(-50%, -50%, 0) translateY(100%);
   backface-visibility: hidden;;
   color: white;
   font-family: 'AlphaHeadlinePro';
@@ -401,11 +400,19 @@ header {
   letter-spacing: .06em;
   text-transform: uppercase;
   opacity: 0;
+  transition: opacity 880ms cubic-bezier(.165, .84, .44, 1), transform 1220ms cubic-bezier(.165, .84, .44, 1);
   will-change: transform;
   z-index: 2;
 
+  .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
   &.show {
-    transform: translate3d(0, 50vh, 0);
+    transform: translate3d(-50%, -50%, 0);
     opacity: 1;
   }
 }
